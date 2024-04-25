@@ -1,0 +1,65 @@
+{
+  "translation": {
+    "word_author": "Author",
+    "word_rating": "Rating",
+    "word_submit": "Submit",
+    "word_comments": "Comments",
+
+    "header_project_name": "Final Project",
+    "header_nav_reviews": "Reviews",
+    "header_nav_compositions": "Compositions",
+    "header_nav_admin": "Users",
+    "header_search_placeholder": "Site search",
+    "header_ru_lang": "Russian",
+    "header_en_lang": "English",
+
+    "login_button": "Log in",
+    "login_profile": "Profile",
+    "login_signout": "Sign out",
+    "login_popup_email": "Email",
+    "login_popup_password": "Password",
+    "login_popup_name": "Name *optional",
+    "login_popup_socials": "Login via socials:",
+    "login_popup_google": "Log in with Google",
+    "login_popup_github": "Log in with Github",
+    "login_popup_signin": "Sign in",
+
+    "main_popular": "Popular",
+    "main_newest": "Newest",
+
+    "reviews_rating": "Rating",
+
+    "admin_login": "Login",
+    "admin_name": "Name",
+    "admin_block_state": "Block state",
+    "admin_admin_state": "Admin state",
+    "admin_delete": "Delete",
+    "admin_admin": "Admin",
+
+    "user_create_review": "Create review",
+    "user_reviews_table_review": "Review title",
+    "user_reviews_table_composition": "Composition name",
+    "user_reviews_table_avg_rating": "Average Rating",
+
+    "review_card_text": "Text",
+    "review_card_composition": "Composition",
+    "review_card_comments": "Comments",
+
+    "review_create_form_title": "Create review",
+    "review_update_form_title": "Update review",
+    "review_form_title_ph": "Enter your title",
+    "review_form_text_ph": "Write your review text",
+    "review_form_img_preview_ph": "Upload a preview image here",
+    "review_form_img_markup_ph": "Upload an image here and get a markup annotation",
+    "review_form_gallery": "Gallery",
+    "review_form_no_img": "No images yet",
+
+    "composition_card_reviews": "Other reviews of this composition",
+    "composition_card_create_review": "Write your review",
+
+    "mark_review": "Rate this review",
+    "mark_composition": "Rate this composition",
+
+    "no_reviews": "No reviews are matched this criteria, try another one"
+  }
+}

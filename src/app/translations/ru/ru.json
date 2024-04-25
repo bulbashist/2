@@ -1,0 +1,65 @@
+{
+  "translation": {
+    "word_author": "Автор",
+    "word_rating": "Рейтинг",
+    "word_submit": "Подтвердить",
+    "word_comments": "Комментарии",
+
+    "header_project_name": "Магазин",
+    "header_search_placeholder": "Поиск по сайту",
+    "header_nav_reviews": "Отзывы",
+    "header_nav_compositions": "Заказы",
+    "header_nav_admin": "Пользователи",
+    "header_ru_lang": "Русский",
+    "header_en_lang": "Английский",
+
+    "login_button": "Войти",
+    "login_profile": "Профиль",
+    "login_signout": "Выйти",
+    "login_popup_email": "Почта",
+    "login_popup_password": "Пароль",
+    "login_popup_name": "Имя *опционально",
+    "login_popup_socials": "Войти через соцсети:",
+    "login_popup_google": "Войти с помощью Google",
+    "login_popup_github": "Войти с помощью Github",
+    "login_popup_signin": "Зарегистрироваться",
+
+    "main_popular": "Популярные",
+    "main_newest": "Новые",
+
+    "reviews_rating": "Рейтинг",
+
+    "admin_login": "Логин",
+    "admin_name": "Имя",
+    "admin_block_state": "Заблокировать",
+    "admin_admin_state": "Сделать администратором",
+    "admin_delete": "Удалить",
+    "admin_admin": "Админ",
+
+    "user_create_review": "Создать отзыв",
+    "user_reviews_table_review": "Отзыв",
+    "user_reviews_table_composition": "Произведение",
+    "user_reviews_table_avg_rating": "Средний рейтинг",
+
+    "review_card_text": "Текст",
+    "review_card_composition": "Произведение",
+    "review_card_comments": "Комментарии",
+
+    "review_create_form_title": "Создание отзыва",
+    "review_update_form_title": "Редактирование отзыва",
+    "review_form_title_ph": "Введите название",
+    "review_form_text_ph": "Напишите свой текст",
+    "review_form_img_preview_ph": "Загрузите сюда превью",
+    "review_form_img_markup_ph": "Загрузите изображение для получения разметки на него",
+    "review_form_gallery": "Галерея",
+    "review_form_no_img": "Пока изображений нету",
+
+    "composition_card_reviews": "Другие отзывы на это произведение",
+    "composition_card_create_review": "Напишите свой отзыв",
+
+    "mark_review": "Оцените отзыв",
+    "mark_composition": "Оцените произведение",
+
+    "no_reviews": "Не найдено отзывов, соответствующих критериям"
+  }
+}
