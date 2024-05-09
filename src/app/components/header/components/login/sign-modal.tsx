@@ -17,6 +17,7 @@ type FormData = {
   login: string;
   password: string;
   name: string;
+  phone: string;
 };
 
 export const SignModalComponent = ({ setModal }: Props) => {
@@ -37,6 +38,7 @@ export const SignModalComponent = ({ setModal }: Props) => {
           login: data.login,
           password: hash,
           ...(data.name && { name: data.name }),
+          ...(data.phone && { phone: data.phone }),
         },
         { withCredentials: true }
       )
@@ -64,6 +66,11 @@ export const SignModalComponent = ({ setModal }: Props) => {
               type="text"
               placeholder={t("login_popup_name")}
               {...register("name")}
+            />
+            <Input
+              type="text"
+              placeholder={t("login_popup_phone")}
+              {...register("phone")}
             />
             <Button type="submit">{t("login_popup_signin")}</Button>
           </Stack>

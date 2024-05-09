@@ -10,15 +10,20 @@ import OrderListComponent from "./components/order-list";
 import { getUserData } from "./store/slice";
 import styles from "app/styles/animations.module.css";
 import PaycardFormComponent from "./components/paycard-form";
+import GoodsListComponent from "./components/goods-list";
+import { UserRights } from "app/types2";
 
 export const UserPage = () => {
   const { data, loading } = useAppSelector((state) => state.user);
-  const { id } = useParams();
+  const { id, rights } = useAppSelector((state) => state.core);
+  const { id: userId } = useParams();
   const dispatch = useAppDispatch();
 
+  const shouldBeVisible = () => id === data?.id || rights >= UserRights.ADMIN;
+
   useEffect(() => {
-    dispatch(getUserData(+id!));
-  }, [id, dispatch]);
+    dispatch(getUserData(+userId!));
+  }, [userId, dispatch]);
 
   if (loading) return <div className={styles.loading} />;
   if (!data) return <NoPage />;
@@ -26,13 +31,20 @@ export const UserPage = () => {
   return (
     <PageWrapperComponent>
       <Stack direction="column" gap={CSSGap.Average} margin={CSSMargin.Average}>
-        <PaycardFormComponent cards={data.cards} />
-        {/* <Stack direction="row">
-            <Typography variant="h5" marginRight={CSSMargin.Average}>
-              {data.name}
-            </Typography>
-          </Stack> */}
-        <OrderListComponent />
+        <Stack direction="row-reverse">
+          <Typography variant="h5" marginRight={CSSMargin.Average}>
+            {data.name}
+          </Typography>
+        </Stack>
+        {shouldBeVisible() ? (
+          <>
+            <PaycardFormComponent cards={data.cards} />
+            <OrderListComponent />
+          </>
+        ) : (
+          <></>
+        )}
+        <GoodsListComponent userId={data.id} />
       </Stack>
     </PageWrapperComponent>
   );

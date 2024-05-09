@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useAppDispatch } from "app/hooks";
 import { getUserData } from "app/store/core-reducer";
 import { CSSGap, CSSPadding } from "app/styles/constants";
-import { githubUrl, googleUrl, logInURL } from "app/constants/urls";
+import { googleUrl, logInURL } from "app/constants/urls";
 import { SignModalComponent } from "./sign-modal";
 
 type Props = {
@@ -78,15 +78,6 @@ export const AuthModalComponent = ({ setModal }: Props) => {
               }}
             >
               {t("login_popup_google")}
-            </Button>
-            <Button
-              variant="outlined"
-              fullWidth={true}
-              onClick={() => {
-                window.location.href = githubUrl;
-              }}
-            >
-              {t("login_popup_github")}
             </Button>
             <Button
               variant="outlined"

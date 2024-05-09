@@ -9,6 +9,9 @@ export const categoriesURI = baseURI + "/product-categories";
 export const getSearchURI = (text: string) =>
   baseURI + `/products/search/?text=${text}`;
 
+export const getSellerProductsURI = (sellerId: number, page = 1) =>
+  baseURI + `/products?seller=${sellerId}&page=${page}`;
+
 export const productsOfCategoryURI = (
   category: string | null,
   page = 1

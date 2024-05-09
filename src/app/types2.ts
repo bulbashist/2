@@ -1,5 +1,11 @@
 import { Order } from "./pages/orders/types";
 
+export enum UserRights {
+  REGISTRED = 0b1,
+  SELLER = 0b10,
+  ADMIN = 0b100,
+}
+
 export type Photo = {
   id: number;
   url: string;
@@ -23,6 +29,7 @@ export type Product = {
   height: number;
   price: number;
   // count: number;  diploma??
+  seller: User;
   manufacturer: Manufacturer;
   category: Category;
   photos: Photo[];

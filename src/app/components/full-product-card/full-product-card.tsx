@@ -19,6 +19,7 @@ import {
 import { useDispatch } from "react-redux";
 import { addToCart } from "app/pages/cart/slice";
 import { useAppSelector } from "app/hooks";
+import { Link } from "react-router-dom";
 
 type Props = {
   product: Product;
@@ -47,6 +48,11 @@ export const FullProductCardComponent = ({ product }: Props) => {
                 {product.name}
               </Typography>
               <List>
+                <Typography variant="h5">
+                  <Link to={`/users/${product.seller.id}`}>
+                    Продавец: {product.seller.name}
+                  </Link>
+                </Typography>
                 <p>Длина: {product.width}</p>
                 <p>Ширина: {product.breadth}</p>
                 <p>Высота: {product.height}</p>
@@ -83,21 +89,27 @@ export const FullProductCardComponent = ({ product }: Props) => {
         </Grid>
         <Grid item xs={12} marginTop={CSSMargin.Decent}>
           <Typography textAlign="left">Галерея:</Typography>
-          <List>
-            {product.photos.map((photo) => (
-              <ListItem key={photo.id}>
-                <Box width={100}>
-                  <img
-                    width="100%"
-                    height="100%"
-                    style={{ objectFit: "contain" }}
-                    src={photo.url}
-                    alt=""
-                  />
-                </Box>
-              </ListItem>
-            ))}
-          </List>
+          {product.photos.length !== 0 ? (
+            <List>
+              {product.photos.map((photo) => (
+                <ListItem key={photo.id}>
+                  <Box width={100}>
+                    <img
+                      width="100%"
+                      height="100%"
+                      style={{ objectFit: "contain" }}
+                      src={photo.url}
+                      alt=""
+                    />
+                  </Box>
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Typography textAlign="left" marginTop={CSSMargin.Small}>
+              У товара пока нету фотографий
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </Card>
