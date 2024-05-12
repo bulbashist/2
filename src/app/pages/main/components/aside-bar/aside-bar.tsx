@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { categoriesURI } from "app/constants/urls2";
+import { categoriesURI } from "app/constants/urls";
 import { useAppDispatch } from "app/hooks";
-import { Category } from "app/types2";
+import { Category } from "app/types";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { changeCategory } from "../../store/slice";

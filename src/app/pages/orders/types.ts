@@ -1,5 +1,4 @@
-import { Office, Product, Transaction } from "app/types2";
-import { ITag } from "../../types";
+import { Office, Product, Transaction } from "app/types";
 
 export type Preview = {
   id: number;
@@ -7,7 +6,6 @@ export type Preview = {
   date: string;
   avgRating: number;
   title: string;
-  tags: ITag[];
 };
 
 export type OrderStatus = {

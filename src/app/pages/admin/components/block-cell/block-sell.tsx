@@ -1,7 +1,7 @@
 import Slider from "@mui/material/Slider";
 import { useAppDispatch } from "../../../../hooks";
 import { changeUser } from "../../store/slice";
-import { User } from "app/types2";
+import { User } from "app/types";
 import { UserRoleEnum } from "../../types";
 
 type Props = {

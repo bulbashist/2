@@ -1,6 +1,11 @@
 import axios from "axios";
-import { DeepPartial, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ordersURI } from "app/constants/urls2";
+import {
+  DeepPartial,
+  PayloadAction,
+  createAsyncThunk,
+  createSlice,
+} from "@reduxjs/toolkit";
+import { ordersURI } from "app/constants/urls";
 import { Order, OrderStatus, PatchOrderListDTO } from "app/pages/orders/types";
 
 type State = {
@@ -16,10 +21,6 @@ const initialState: State = {
 };
 
 //TODO: ADD pagination
-
-const getOrderList = createAsyncThunk("orderlist-get", async (page: number) => {
-  return axios.get(ordersURI).then((resp) => resp.data);
-});
 
 const changeOrderStatusFromList = createAsyncThunk(
   "orderlist-change-status",
@@ -41,48 +42,47 @@ const deleteOrderFromList = createAsyncThunk(
   }
 );
 
-const slice = createSlice<State, any, any>({
-  name: "orderlist",
+const slice = createSlice({
+  name: "orders",
   initialState,
-  reducers: {},
-  extraReducers: (builder) =>
-    builder
-      .addCase(getOrderList.pending, (state, action) => {
-        state.loading = true;
-        state.error = false;
-      })
-      .addCase(getOrderList.rejected, (state, action) => {
-        state.loading = false;
-        state.error = true;
-      })
-      .addCase(getOrderList.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = false;
-        state.data = action.payload;
-      })
-      .addCase(deleteOrderFromList.pending, (state, action) => {
-        state.loading = true;
-        state.error = false;
-      })
-      .addCase(deleteOrderFromList.rejected, (state, action) => {
-        state.loading = false;
-        state.error = true;
-      })
-      .addCase(deleteOrderFromList.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = false;
-        state.data = state.data!.filter((v) => v.id !== action.payload);
-      })
-      .addCase(changeOrderStatusFromList.fulfilled, (state, action) => {
-        state.data = state.data!.map((order) => {
-          if (order.id === action.payload.id) {
-            return {
-              ...order,
-            };
-          } else return order;
-        });
-      }),
+  reducers: {
+    setOrders: (state, action: PayloadAction<Order[]>) => {
+      state.data = action.payload;
+    },
+    addOrder: (state, action: PayloadAction<Order>) => {
+      state.data = [action.payload, ...state.data!];
+    },
+    changeOrderStatus: (
+      state,
+      action: PayloadAction<Pick<Order, "id" | "status">>
+    ) => {
+      state.data = state.data!.map((order) => {
+        if (order.id === action.payload.id) {
+          return {
+            ...order,
+            status: action.payload.status,
+          };
+        } else return order;
+      });
+    },
+    deleteOrder: (state, action: PayloadAction<number>) => {
+      state.data = state.data!.filter((order) => order.id !== action.payload);
+    },
+    resetOrders: (state) => {
+      state.data = [];
+    },
+    pushInquiry: (state) => {
+      // state.loading = true;
+    },
+  },
 });
 
-export { getOrderList, deleteOrderFromList, changeOrderStatusFromList };
+export { deleteOrderFromList, changeOrderStatusFromList };
+export const {
+  setOrders,
+  addOrder,
+  changeOrderStatus,
+  deleteOrder,
+  resetOrders,
+} = slice.actions;
 export default slice.reducer;

@@ -60,6 +60,8 @@
     "mark_review": "Rate this review",
     "mark_composition": "Rate this composition",
 
-    "no_reviews": "No reviews are matched this criteria, try another one"
+    "no_reviews": "No reviews are matched this criteria, try another one",
+
+    "create_product_form_title": "Publish new product"
   }
 }

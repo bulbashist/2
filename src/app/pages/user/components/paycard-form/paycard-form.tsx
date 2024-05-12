@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { CSSBorder, CSSPadding } from "app/styles/constants";
-import { Paycard } from "app/types2";
+import { Paycard } from "app/types";
 import { useForm } from "react-hook-form";
 import { addPaycard, removePaycard } from "../../store/slice";
 import { AddPaycardDto } from "../../store/types";

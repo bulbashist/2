@@ -1,3 +1,3 @@
-import { CompositionPage } from "./order-page";
+import { OrderPage } from "./order-page";
 
-export default CompositionPage;
+export default OrderPage;

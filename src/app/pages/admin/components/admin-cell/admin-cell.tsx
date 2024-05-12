@@ -2,7 +2,7 @@ import { Slider, Typography } from "@mui/material";
 import { useAppDispatch } from "../../../../hooks";
 import { changeUser } from "../../store/slice";
 import { useTranslation } from "react-i18next";
-import { User } from "app/types2";
+import { User } from "app/types";
 import { UserRoleEnum } from "../../types";
 
 type Props = {

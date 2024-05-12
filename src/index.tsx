@@ -15,15 +15,15 @@ const onBeforeLift = async () => {
 };
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate
-        loading={null}
-        persistor={persistor}
-        onBeforeLift={onBeforeLift}
-      >
-        <App />
-      </PersistGate>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <PersistGate
+      loading={null}
+      persistor={persistor}
+      onBeforeLift={onBeforeLift}
+    >
+      <App />
+    </PersistGate>
+  </Provider>
+  // {/* </React.StrictMode> */}
 );

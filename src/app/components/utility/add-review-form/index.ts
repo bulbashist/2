@@ -1,3 +1,3 @@
-import { AddReviewForm } from "./add-review-form";
+import { CreateProductForm } from "./create-product-form";
 
-export default AddReviewForm;
+export default CreateProductForm;

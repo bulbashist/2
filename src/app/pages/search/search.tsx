@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material";
 import PageWrapperComponent from "../../components/page-wrapper";
-import ProductListComponent from "./components/reviews-list";
+import ProductListComponent from "./components/product-list";
 import { CSSGap, CSSPadding } from "app/styles/constants";
 
 export const SearchPage = () => {

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { ChangeUserDTO } from "../types";
 import { usersURL } from "../../../constants/urls";
-import { User } from "app/types2";
+import { User } from "app/types";
 
 type ThunkArgs = {
   id: number;

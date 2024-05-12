@@ -3,7 +3,6 @@ import axios from "axios";
 import { Theme } from "../themes/types";
 import { Language } from "../translations/types";
 import i18next from "i18next";
-import { ITag } from "../types";
 import { signOutURL } from "../constants/urls";
 
 type State = {
@@ -12,7 +11,6 @@ type State = {
   rights: number;
   theme: Theme;
   lang: Language;
-  tag: ITag | null;
 };
 
 const initialState: State = {
@@ -21,7 +19,6 @@ const initialState: State = {
   rights: 0,
   theme: Theme.Dark,
   lang: Language.English,
-  tag: null,
 };
 
 const getUserData = createAsyncThunk("get-user-data", async () => {
@@ -46,12 +43,6 @@ const slice = createSlice({
       state.lang = action.payload;
       i18next.changeLanguage(action.payload);
     },
-    addTag: (state, action: PayloadAction<ITag>) => {
-      state.tag = action.payload;
-    },
-    deleteTag: (state, action: PayloadAction<number>) => {
-      state.tag = null;
-    },
   },
   extraReducers: (builder) =>
     builder
@@ -68,5 +59,5 @@ const slice = createSlice({
 });
 
 export { getUserData, signOut };
-export const { changeLang, changeTheme, addTag, deleteTag } = slice.actions;
+export const { changeLang, changeTheme } = slice.actions;
 export default slice.reducer;

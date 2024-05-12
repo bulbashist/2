@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { productsOfCategoryURI, productsURI } from "app/constants/urls2";
-import { Product } from "app/types2";
+import { getCategoryProductsURI } from "app/constants/urls";
+import { Product } from "app/types";
 import {
   Box,
   Card,
@@ -22,7 +22,7 @@ export const CatalogComponent = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    const URI = productsOfCategoryURI(category, page);
+    const URI = getCategoryProductsURI(category, page);
 
     axios
       .get(URI)
@@ -66,7 +66,7 @@ export const CatalogComponent = () => {
                       <Link to={`/products/${product.id}`}>{product.name}</Link>
                     </Typography>
                   </Grid>
-                  <Rating value={5} readOnly />
+                  <Rating value={product.avgRating} readOnly />
                 </Grid>
               </Box>
             </Card>

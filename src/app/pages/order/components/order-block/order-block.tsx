@@ -14,7 +14,7 @@ import { CSSGap, CSSMargin, CSSPadding } from "app/styles/constants";
 import { useTranslation } from "react-i18next";
 import { Order } from "app/pages/orders/types";
 import FullProductCardComponent from "app/components/full-product-card";
-import { Product } from "app/types2";
+import { Product } from "app/types";
 import defImg from "app/assets/default.webp";
 
 type Props = {

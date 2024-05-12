@@ -1,8 +1,8 @@
 import axios from "axios";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ordersURI } from "app/constants/urls2";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { ordersURI } from "app/constants/urls";
 import { Order, OrderStatus } from "app/pages/orders/types";
-import { Office, User } from "app/types2";
+import { Office, User } from "app/types";
 import { CartProduct } from "app/pages/cart/slice";
 
 type State = {
@@ -53,10 +53,14 @@ const changeRating = createAsyncThunk(
   }
 );
 
-const slice = createSlice<State, any, any>({
+const slice = createSlice({
   name: "composition-page-store",
   initialState,
-  reducers: {},
+  reducers: {
+    setOrder: (state, action: PayloadAction<Order>) => {
+      state.data = action.payload;
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(getOrder.pending, (state) => {
@@ -89,4 +93,5 @@ const slice = createSlice<State, any, any>({
 });
 
 export { getOrder, changeRating, createOrder, deleteOrder };
+export const { setOrder } = slice.actions;
 export default slice.reducer;

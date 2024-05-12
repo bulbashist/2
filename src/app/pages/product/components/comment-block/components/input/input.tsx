@@ -10,25 +10,30 @@ import { Box, Rating } from "@mui/material";
 
 type Props = {
   userId: number;
-  reviewId: number;
+  pid: number;
 };
 
-export const CommentInputComponent = ({ userId, reviewId }: Props) => {
+export const CommentInputComponent = ({ userId, pid }: Props) => {
   const [text, setText] = useState("");
   const [rating, setRating] = useState(0);
 
   const submitComment = () => {
     connection.addComment({
-      product: reviewId,
+      product: pid,
       text,
       user: userId,
+      rating,
     });
   };
 
   return (
     <Box position="relative" marginTop={CSSMargin.Small}>
       <Box position="absolute" top={0} right={0}>
-        <Rating value={rating} onChange={(_, v) => setRating(v ?? 0)} />
+        <Rating
+          defaultValue={3}
+          value={rating}
+          onChange={(_, v) => setRating(v ?? 0)}
+        />
       </Box>
 
       <Stack direction="row">

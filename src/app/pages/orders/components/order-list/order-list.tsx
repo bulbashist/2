@@ -20,9 +20,10 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import {
   changeOrderStatusFromList,
   deleteOrderFromList,
-  getOrderList,
 } from "../../store/slice";
 import { CartProduct } from "app/pages/cart/slice";
+import { orderWSC } from "../../services/order-connection";
+import { WSOrderEvents } from "app/pages/product/components/comment-block/services/types";
 
 const options = ["Принят", "Обрабатывается", "В пути", "Доставлен", "Получен"];
 
@@ -32,7 +33,9 @@ export const OrderListComponent = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getOrderList(page));
+    orderWSC.connect(process.env.REACT_APP_WS_SERVER!, "78");
+    orderWSC.emit(WSOrderEvents.FindAllOrders);
+    return () => orderWSC.close();
   }, [page, dispatch]);
 
   if (!data) return null;

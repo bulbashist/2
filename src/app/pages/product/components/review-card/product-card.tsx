@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { Product } from "app/types2";
+import { Product } from "app/types";
 import FullProductCardComponent from "app/components/full-product-card";
 
 type Props = {
@@ -14,9 +14,5 @@ export const ReviewCardComponent = ({ product }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const ref = useRef<HTMLDivElement>(null);
-  // console.log(product);
-
   return <FullProductCardComponent product={product} />;
 };

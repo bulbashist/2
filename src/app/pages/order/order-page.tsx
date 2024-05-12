@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router";
 import PageWrapperComponent from "app/components/page-wrapper";
-import AddReviewForm from "app/components/utility/add-review-form";
 import NoPage from "app/pages/404";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import OrderBlockComponent from "./components/order-block";
-import { getOrder } from "./store/slice";
 import styles from "app/styles/animations.module.css";
+import { orderWSC } from "../orders/services/order-connection";
+import { WSOrderEvents } from "../product/components/comment-block/services/types";
 
-export const CompositionPage = () => {
+export const OrderPage = () => {
   const { data, loading } = useAppSelector((state) => state.order);
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
-      dispatch(getOrder(+id));
+      orderWSC.connect(process.env.REACT_APP_WS_SERVER!, "78");
+      orderWSC.emit(WSOrderEvents.FindOneOrder);
+      return () => orderWSC.close();
     }
   }, [id, dispatch]);
 
@@ -25,13 +26,6 @@ export const CompositionPage = () => {
 
   return (
     <PageWrapperComponent>
-      {/* <CompositionBlockComponent
-        composition={data}
-        openModal={() => setIsOpen(true)}
-      />
-      {isOpen && data ? (
-        <AddReviewForm composition={data} closeModal={() => setIsOpen(false)} />
-      ) : null} */}
       <OrderBlockComponent order={data} />
     </PageWrapperComponent>
   );

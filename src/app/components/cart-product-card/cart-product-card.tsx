@@ -1,7 +1,7 @@
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 import { useAppDispatch } from "app/hooks";
 import { CSSGap, CSSMargin, CSSPadding } from "app/styles/constants";
-import { Product } from "app/types2";
+import { Product } from "app/types";
 import defImg from "app/assets/default.webp";
 import { changeProductAmount } from "app/pages/cart/slice";
 import { Add, Remove } from "@mui/icons-material";

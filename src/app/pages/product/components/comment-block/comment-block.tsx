@@ -1,4 +1,12 @@
-import { Avatar, Box, List, ListItem, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  List,
+  ListItem,
+  Rating,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { CSSBorder, CSSMargin, CSSPadding } from "app/styles/constants";
 import DeleteForever from "@mui/icons-material/DeleteForever";
 import { useEffect } from "react";
@@ -7,24 +15,24 @@ import { useParams } from "react-router";
 import { useAppSelector } from "app/hooks";
 import CommentInputComponent from "./components/input";
 import { useTranslation } from "react-i18next";
-import { Comment } from "app/types2";
+import { Comment } from "app/types";
 
 type Props = {
   comments: Comment[];
 };
 
 export const CommentBlockComponent = ({ comments }: Props) => {
-  const { id: reviewId } = useParams();
+  const { id: pid } = useParams();
   const { id: userId, rights } = useAppSelector((state) => state.core);
   const { t } = useTranslation();
 
   useEffect(() => {
-   connection.connect(process.env.REACT_APP_WS_SERVER!);
+    connection.connect(process.env.REACT_APP_WS_SERVER!);
 
     return () => connection.close();
   }, []);
 
-  const isAdmin = rights & 0b0010;
+  const isAdmin = rights & 0b100;
 
   return (
     <Box padding={CSSPadding.Average}>
@@ -42,6 +50,9 @@ export const CommentBlockComponent = ({ comments }: Props) => {
                   {new Date(comment.date).toDateString()}
                 </Typography>
               </List>
+              <Box marginLeft={CSSMargin.Average}>
+                <Rating value={comment.rating} readOnly />
+              </Box>
             </ListItem>
             <Box sx={{ overflowX: "auto" }}>
               <Typography align="left" sx={{ marginLeft: CSSMargin.Large }}>
@@ -57,9 +68,7 @@ export const CommentBlockComponent = ({ comments }: Props) => {
             ) : null}
           </Stack>
         ))}
-        {userId ? (
-          <CommentInputComponent reviewId={+reviewId!} userId={userId} />
-        ) : null}
+        {userId ? <CommentInputComponent pid={+pid!} userId={userId} /> : null}
       </List>
     </Box>
   );

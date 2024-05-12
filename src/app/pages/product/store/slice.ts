@@ -1,21 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { getProduct, deleteReview } from "./products/thunks";
-import { Comment, Product } from "app/types2";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getProduct } from "./products/thunks";
+import { Comment, Product } from "app/types";
+import axios from "axios";
+import { productsURI } from "app/constants/urls";
 
 type State = {
-  product: null | Product;
+  data: null | Product;
   isBeingEdited: boolean;
   loading: boolean;
 };
 
 const initialState: State = {
-  product: null,
+  data: null,
   isBeingEdited: false,
   loading: false,
 };
 
+const removeProduct = createAsyncThunk("remove-product", (id: number) => {
+  return axios.delete(productsURI + id, { withCredentials: true });
+});
+
 const slice = createSlice({
-  name: "review",
+  name: "product",
   initialState,
   reducers: {
     setEditingState: (state, action) => {
@@ -23,10 +29,10 @@ const slice = createSlice({
     },
     addComment: (state, action) => {
       console.log(action.payload);
-      state.product!.comments = [action.payload, ...state.product!.comments];
+      state.data!.comments = [action.payload, ...state.data!.comments];
     },
     deleteComment: (state, action) => {
-      state.product!.comments = state.product!.comments.filter(
+      state.data!.comments = state.data!.comments.filter(
         (comment) => comment.id !== action.payload
       );
     },
@@ -40,12 +46,15 @@ const slice = createSlice({
         state.loading = false;
       })
       .addCase(getProduct.fulfilled, (state, action) => {
-        state.product = action.payload;
+        state.data = action.payload;
         state.loading = false;
       })
-
-      .addCase(deleteReview.fulfilled, (state, _) => {
-        state.product = null;
+      .addCase(removeProduct.fulfilled, (state, _) => {
+        state.data = null;
+        state.loading = false;
+      })
+      .addCase(removeProduct.pending, (state, _) => {
+        state.loading = true;
       }),
   // .addCase(
   //   changeRating.fulfilled,
@@ -61,6 +70,6 @@ const slice = createSlice({
   // ),
 });
 
-export { getProduct, deleteReview };
+export { getProduct, removeProduct };
 export const { setEditingState, addComment, deleteComment } = slice.actions;
 export default slice.reducer;

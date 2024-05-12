@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   Grid,
   Pagination,
@@ -7,16 +8,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { getSellerProductsURI } from "app/constants/urls2";
-import { useAppSelector } from "app/hooks";
+import CreateProductForm from "app/components/utility/add-review-form";
+import { getSellerProductsURI } from "app/constants/urls";
 import { CSSGap, CSSMargin, CSSPadding } from "app/styles/constants";
-import { Product } from "app/types2";
+import { Product } from "app/types";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export const GoodsListComponent = ({ userId }: any) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [productDialog, setProductDialog] = useState(false);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -30,9 +32,20 @@ export const GoodsListComponent = ({ userId }: any) => {
 
   return (
     <Box>
-      <Typography variant="h4" marginBottom={CSSMargin.Small}>
-        Товары, предлагаемые пользователем:
-      </Typography>
+      <Box position="relative">
+        <Typography variant="h4" marginBottom={CSSMargin.Small}>
+          Товары, предлагаемые пользователем:
+        </Typography>
+        <Box position="absolute" top={0} right={0}>
+          <Button onClick={() => setProductDialog(true)}>Добавить товар</Button>
+        </Box>
+        <CreateProductForm
+          open={productDialog}
+          closeModal={() => {
+            setProductDialog(false);
+          }}
+        />
+      </Box>
       <Stack direction="column" gap={CSSGap.Small} width="100%">
         <Grid container gap={CSSGap.Small} columns={13}>
           {products.map((product) => (
@@ -70,7 +83,7 @@ export const GoodsListComponent = ({ userId }: any) => {
                         </Link>
                       </Typography>
                     </Grid>
-                    <Rating value={5} readOnly />
+                    <Rating value={product.avgRating} readOnly />
                   </Grid>
                 </Box>
               </Card>

@@ -9,7 +9,6 @@ import orderReducer from "../pages/order/store/slice";
 import ordersReducer from "../pages/orders/store/slice";
 import coreReducer from "./core-reducer";
 import adminReducer from "../pages/admin/store/slice";
-import reviewReducer from "../pages/review/store/slice";
 import searchReducer from "../pages/search/store/slice";
 import userReducer from "../pages/user/store/slice";
 import productReducer from "app/pages/product/store/slice";
@@ -20,7 +19,7 @@ import { PersistConfig, persistReducer, persistStore } from "redux-persist";
 const persistConfig: PersistConfig<any> = {
   key: "root",
   storage,
-  whitelist: ["core"],
+  whitelist: ["core", "cart"],
 };
 
 const reducer = combineReducers({
@@ -29,7 +28,6 @@ const reducer = combineReducers({
   order: orderReducer,
   orders: ordersReducer,
   admin: adminReducer,
-  review: reviewReducer,
   search: searchReducer,
   user: userReducer,
   product: productReducer,

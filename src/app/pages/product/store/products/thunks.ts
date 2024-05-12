@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { reviewsURL } from "../../../../constants/urls";
-import { productsURI } from "app/constants/urls2";
+import { productsURI } from "app/constants/urls";
 
 const getProduct = createAsyncThunk("get-product", async (id: number) => {
   const response = await axios.get(productsURI + id, { withCredentials: true });
@@ -24,10 +23,10 @@ const getProduct = createAsyncThunk("get-product", async (id: number) => {
 //   }
 // );
 
-const deleteReview = createAsyncThunk("delete-review", async (id: number) => {
-  await axios.delete(reviewsURL + id, { withCredentials: true });
-  return;
-});
+// const deleteReview = createAsyncThunk("delete-review", async (id: number) => {
+//   await axios.delete(reviewsURL + id, { withCredentials: true });
+//   return;
+// });
 
 // const changeRating = createAsyncThunk(
 //   "change-review-rating",
@@ -57,4 +56,4 @@ const deleteReview = createAsyncThunk("delete-review", async (id: number) => {
 //   }
 // );
 
-export { getProduct, deleteReview };
+export { getProduct };

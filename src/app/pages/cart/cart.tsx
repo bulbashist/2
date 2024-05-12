@@ -7,11 +7,11 @@ import { useNavigate } from "react-router";
 import { resetCart } from "./slice";
 import CartProductCardComponent from "app/components/cart-product-card";
 import PageWrapperComponent from "app/components/page-wrapper";
-import { Autocomplete, Box, Grid, TextField } from "@mui/material";
+import { Autocomplete, Box, Grid, TextField, Typography } from "@mui/material";
 import { CSSGap, CSSPadding } from "app/styles/constants";
 import axios from "axios";
-import { officesURI, paycardsURI } from "app/constants/urls2";
-import { Office, Paycard } from "app/types2";
+import { officesURI, paycardsURI } from "app/constants/urls";
+import { Office, Paycard } from "app/types";
 import { initiatePayment, printCheck } from "app/services/payment";
 import { createOrder } from "../order/store/slice";
 

@@ -18,7 +18,7 @@ import AdminCellComponent from "./components/admin-cell";
 import BlockCellComponent from "./components/block-cell";
 import { deleteUser, getUsers } from "./store/slice";
 import styles from "app/styles/animations.module.css";
-import { User } from "app/types2";
+import { User } from "app/types";
 
 export const AdminPage = () => {
   const rights = useAppSelector((state) => state.core.rights);

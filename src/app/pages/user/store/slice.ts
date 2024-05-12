@@ -1,9 +1,9 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { usersURL } from "app/constants/urls";
-import { User } from "app/types2";
-import { paycardsURI } from "app/constants/urls2";
-import { AddPaycardDto } from "./types";
+import { User } from "app/types";
+import { paycardsURI } from "app/constants/urls";
+import { AddPaycardDto, ChangeNameDto } from "./types";
 
 type State = {
   data: User | null;
@@ -36,6 +36,19 @@ const removePaycard = createAsyncThunk(
   }
 );
 
+const changeUserName = createAsyncThunk(
+  "user-change-name-1",
+  async (data: ChangeNameDto) => {
+    await axios.patch(
+      usersURL + data.id,
+      { name: data.name },
+      { withCredentials: true }
+    );
+
+    return data.name;
+  }
+);
+
 const slice = createSlice<State, any>({
   name: "user-data",
   initialState,
@@ -55,6 +68,9 @@ const slice = createSlice<State, any>({
       .addCase(addPaycard.fulfilled, (state, action) => {
         state.data!.cards = [...state.data!.cards, action.payload];
       })
+      .addCase(changeUserName.fulfilled, (state, action) => {
+        state.data!.name = action.payload;
+      })
       .addCase(removePaycard.fulfilled, (state, action) => {
         const index = state.data?.cards.findIndex(
           (card) => card.id === action.payload
@@ -70,5 +86,5 @@ const slice = createSlice<State, any>({
       }),
 });
 
-export { getUserData, addPaycard, removePaycard };
+export { getUserData, changeUserName, addPaycard, removePaycard };
 export default slice.reducer;

@@ -1,4 +1,4 @@
-import { AppBar, Stack, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, List, Stack, Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import LoginComponent from "./components/login";
@@ -7,7 +7,7 @@ import SearchComponent from "./components/search-component";
 import NavListComponent from "./components/nav-list";
 import LangComponent from "./components/lang-component";
 import { Link } from "react-router-dom";
-import { CSSGap } from "../../styles/constants";
+import { CSSGap, CSSMargin, CSSPadding } from "../../styles/constants";
 import { HeaderWrapper } from "./styles";
 import { ShoppingCart } from "@mui/icons-material";
 
@@ -16,6 +16,19 @@ export const HeaderComponent = () => {
 
   return (
     <AppBar position="sticky" color="default" sx={{ marginBottom: 3 }}>
+      <Box
+        marginTop={CSSMargin.Tiny}
+        paddingX={CSSPadding.Large + CSSMargin.Average}
+      >
+        <Stack direction="row" gap={CSSGap.Small} justifyContent="end">
+          <Link to="/">
+            <Typography textAlign="end">Стать продавцом</Typography>
+          </Link>
+          <Link to="/offices">
+            <Typography textAlign="end">Пункты выдачи</Typography>
+          </Link>
+        </Stack>
+      </Box>
       <Toolbar>
         <HeaderWrapper>
           <Link to="/">

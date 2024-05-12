@@ -4,3 +4,8 @@ export type AddPaycardDto = {
   cvv: number;
   user: { id: number };
 };
+
+export type ChangeNameDto = {
+  id: number;
+  name: string;
+};

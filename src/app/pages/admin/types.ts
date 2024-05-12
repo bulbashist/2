@@ -1,4 +1,4 @@
-import { User } from "app/types2";
+import { User } from "app/types";
 import { IUser } from "../../types";
 import { DeepPartial } from "@reduxjs/toolkit";
 

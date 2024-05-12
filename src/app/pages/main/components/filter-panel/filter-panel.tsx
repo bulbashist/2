@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../hooks";
 import { changeFilter } from "../../store/slice";
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
-import TagsPanelComponent from "./components/tags-panel";
 import { CSSGap } from "../../../../styles/constants";
 import { useTranslation } from "react-i18next";
 
@@ -68,7 +67,6 @@ export const FilterPanelComponent = () => {
           )}
         </Stack>
       </Box>
-      {isOpen ? <TagsPanelComponent /> : null}
     </Stack>
   );
 };

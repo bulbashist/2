@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 import { Link, useSearchParams } from "react-router-dom";
 import { CSSGap, CSSPadding } from "../../../../styles/constants";
-import { getSearchURI } from "app/constants/urls2";
-import { Product } from "app/types2";
+import { getSearchURI } from "app/constants/urls";
+import { Product } from "app/types";
 import defImg from "app/assets/default.webp";
 
 export const ProductListComponent = () => {
@@ -57,7 +57,7 @@ export const ProductListComponent = () => {
                       <Link to={`/products/${product.id}`}>{product.name}</Link>
                     </Typography>
                   </Grid>
-                  <Rating value={5} readOnly />
+                  <Rating value={product.avgRating} readOnly />
                 </Grid>
               </Box>
             </Card>
