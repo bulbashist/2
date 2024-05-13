@@ -157,7 +157,7 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
                     sx={{ width: 300 }}
                     options={categories}
                     getOptionLabel={(value) => value.name}
-                    placeholder="Категория"
+                    // placeholder="Категория"
                     //@ts-ignore
                     renderInput={(params) => <TextField {...params} />}
                   />
@@ -174,7 +174,7 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
                     sx={{ width: 300 }}
                     options={manufacturers}
                     getOptionLabel={(value) => value.name}
-                    placeholder="Производитель"
+                    // placeholder="Производитель"
                     //@ts-ignore
                     renderInput={(params) => <TextField {...params} />}
                   />

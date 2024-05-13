@@ -85,7 +85,7 @@ const CartPage = () => {
                 label: office.location,
                 value: office.id,
               }))}
-              placeholder="Адрес доставки"
+              // placeholder="Адрес доставки"
               onChange={(e, selected) => {
                 setSelectedOfficeId(selected?.value ?? null);
               }}
@@ -98,7 +98,7 @@ const CartPage = () => {
                 label: paycard.cardNumber,
                 value: paycard.id,
               }))}
-              placeholder="Карта"
+              // placeholder="Карта"
               onChange={(e, selected) => {
                 setSelectedPaycardId(selected?.value ?? null);
               }}
