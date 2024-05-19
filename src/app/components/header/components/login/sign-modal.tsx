@@ -67,11 +67,6 @@ export const SignModalComponent = ({ setModal }: Props) => {
               placeholder={t("login_popup_name")}
               {...register("name")}
             />
-            <Input
-              type="text"
-              placeholder={t("login_popup_phone")}
-              {...register("phone")}
-            />
             <Button type="submit">{t("login_popup_signin")}</Button>
           </Stack>
         </form>

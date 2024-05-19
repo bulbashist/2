@@ -23,13 +23,11 @@ const initialState: State = {
 
 const getUserData = createAsyncThunk("get-user-data", async () => {
   const url = process.env.REACT_APP_SERVER + "/auth/user";
-  const response = await axios.get(url, { withCredentials: true });
-
-  return response.data;
+  return axios.get(url, { withCredentials: true }).then((res) => res.data);
 });
 
 const signOut = createAsyncThunk("sign-out", async () => {
-  axios.get(signOutURL, { withCredentials: true });
+  return axios.get(signOutURL, { withCredentials: true });
 });
 
 const slice = createSlice({

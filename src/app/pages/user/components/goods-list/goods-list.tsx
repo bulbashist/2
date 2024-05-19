@@ -2,43 +2,83 @@ import {
   Box,
   Button,
   Card,
+  FormControl,
   Grid,
+  MenuItem,
   Pagination,
   Rating,
+  Select,
   Stack,
   Typography,
 } from "@mui/material";
 import CreateProductForm from "app/components/utility/add-review-form";
 import { getSellerProductsURI } from "app/constants/urls";
-import { CSSGap, CSSMargin, CSSPadding } from "app/styles/constants";
+import {
+  CSSGap,
+  CSSMargin,
+  CSSPadding,
+  FontWeight,
+} from "app/styles/constants";
 import { Product } from "app/types";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { sortVariants } from "../../types";
+import { useAppSelector } from "app/hooks";
+import defImg from "app/assets/default.webp";
 
-export const GoodsListComponent = ({ userId }: any) => {
+export const GoodsListComponent = () => {
+  const { id } = useParams();
+  const userId = useAppSelector((state) => state.core.id)!;
+
   const [products, setProducts] = useState<Product[]>([]);
   const [productDialog, setProductDialog] = useState(false);
   const [page, setPage] = useState(1);
 
+  const [sortVal, setSortVal] = useState(0);
+
   useEffect(() => {
-    const URI = getSellerProductsURI(userId, page);
+    const URI = getSellerProductsURI(+id!, page, sortVal);
 
     axios
       .get(URI)
       .then((resp) => setProducts(resp.data))
       .catch(console.log);
-  }, [page, userId]);
+  }, [page, id, sortVal]);
 
   return (
     <Box>
       <Box position="relative">
-        <Typography variant="h4" marginBottom={CSSMargin.Small}>
-          Товары, предлагаемые пользователем:
-        </Typography>
-        <Box position="absolute" top={0} right={0}>
-          <Button onClick={() => setProductDialog(true)}>Добавить товар</Button>
-        </Box>
+        <Stack direction="row" gap={CSSGap.Small}>
+          <Typography
+            variant="h4"
+            fontWeight={FontWeight.Bold}
+            marginBottom={CSSMargin.Small}
+          >
+            Товары, предлагаемые пользователем:
+          </Typography>
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <Select
+              value={sortVal}
+              onChange={(e) => setSortVal(+e.target.value)}
+            >
+              {sortVariants.map((sv) => (
+                <MenuItem key={sv.value} value={sv.value}>
+                  {sv.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Stack>
+        {+id! === userId ? (
+          <Box position="absolute" top={0} right={0}>
+            <Button onClick={() => setProductDialog(true)}>
+              Добавить товар
+            </Button>
+          </Box>
+        ) : (
+          <></>
+        )}
         <CreateProductForm
           open={productDialog}
           closeModal={() => {
@@ -59,8 +99,8 @@ export const GoodsListComponent = ({ userId }: any) => {
                           <img
                             width="100%"
                             height="100%"
-                            style={{ objectFit: "contain" }}
-                            src={product.photos[0]?.url}
+                            style={{ objectFit: "cover" }}
+                            src={product.photos[0]?.url ?? defImg}
                             alt=""
                           />
                         </Link>
@@ -90,15 +130,13 @@ export const GoodsListComponent = ({ userId }: any) => {
             </Grid>
           ))}
         </Grid>
-        <Pagination
-          sx={{ alignSelf: "end" }}
-          page={page}
-          onChange={(_, value) => {
-            setPage(value);
-            window.scroll(0, 0);
-          }}
-          count={10}
-        />
+        <Box alignSelf="end">
+          <Pagination
+            page={page}
+            onChange={(_, value) => setPage(value)}
+            count={10}
+          />
+        </Box>
       </Stack>
     </Box>
   );

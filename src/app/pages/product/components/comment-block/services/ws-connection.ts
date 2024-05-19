@@ -14,7 +14,6 @@ class WSConnection {
     this.socket = io(uri, { withCredentials: true });
 
     this.socket.on("createComment", (payload: CreateCommentDto) => {
-      console.log(payload);
       store.dispatch(addComment(payload));
     });
 

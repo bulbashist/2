@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type State = {
-  filter: "new" | "popular";
+  filter: number;
   category: string | null;
 };
 
 const initialState: State = {
-  filter: "new",
+  filter: 0,
   category: null,
 };
 

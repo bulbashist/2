@@ -1,10 +1,15 @@
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 import { useAppDispatch } from "app/hooks";
-import { CSSGap, CSSMargin, CSSPadding } from "app/styles/constants";
+import {
+  CSSGap,
+  CSSMargin,
+  CSSPadding,
+  FontWeight,
+} from "app/styles/constants";
 import { Product } from "app/types";
 import defImg from "app/assets/default.webp";
-import { changeProductAmount } from "app/pages/cart/slice";
-import { Add, Remove } from "@mui/icons-material";
+import { changeProductAmount, deleteFromCart } from "app/pages/cart/slice";
+import { Add, Delete, Remove } from "@mui/icons-material";
 
 type Props = {
   obj: {
@@ -25,32 +30,67 @@ export const CartProductCardComponent = ({ obj }: Props) => {
     );
   };
 
+  const totalPerProduct = (obj: any) => {
+    return (
+      obj.product.price *
+      obj.count *
+      (1 - obj.product.discount / 100)
+    ).toFixed(2);
+  };
+
   return (
     <Card raised>
-      <Box padding={CSSPadding.Small}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="start"
+        padding={CSSPadding.Small}
+      >
         <FullProductCardComponent2 product={obj.product} />
-        <Typography variant="h6">Количество:</Typography>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          gap={CSSGap.Small}
-        >
-          <Button
-            variant="outlined"
-            onClick={() => changeAmount(obj.product.id, obj.count - 1)}
+        <Box>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            gap={CSSGap.Tiny}
           >
-            <Remove />
-          </Button>
-          <Typography variant="h6">{obj.count}</Typography>
-          <Button
-            variant="outlined"
-            onClick={() => changeAmount(obj.product.id, obj.count + 1)}
-          >
-            <Add />
-          </Button>
-        </Stack>
-      </Box>
+            <Button
+              variant="text"
+              onClick={() => changeAmount(obj.product.id, obj.count - 1)}
+            >
+              <Remove />
+            </Button>
+            <Typography variant="h6">{obj.count}</Typography>
+            <Button
+              variant="text"
+              onClick={() => changeAmount(obj.product.id, obj.count + 1)}
+            >
+              <Add />
+            </Button>
+          </Stack>
+          <Stack direction="column">
+            {obj.product.discount ? (
+              <Typography
+                fontSize={14}
+                textAlign="right"
+                color="pink"
+                marginRight={CSSMargin.Average}
+              >
+                <s color="pink">{obj.product.price * obj.count} BYN</s>
+              </Typography>
+            ) : (
+              <></>
+            )}
+            <Typography
+              variant="h6"
+              textAlign="right"
+              marginRight={CSSMargin.Average}
+            >
+              {totalPerProduct(obj)} BYN
+            </Typography>
+          </Stack>
+        </Box>
+      </Stack>
     </Card>
   );
 };
@@ -60,38 +100,49 @@ type Props2 = {
 };
 
 export const FullProductCardComponent2 = ({ product }: Props2) => {
+  const dispatch = useAppDispatch();
+
   return (
-    <Box margin={CSSMargin.Tiny}>
-      <Grid container gap={CSSGap.Tiny}>
-        <Grid item xs={6}>
-          <img
-            src={product.photos[0]?.url ?? defImg}
-            width={200}
-            height={200}
-            alt=""
+    <Stack direction="row">
+      <Box>
+        <img
+          src={product.photos[0]?.url ?? defImg}
+          width={150}
+          height={170}
+          alt=""
+          style={{ objectFit: "contain" }}
+        />
+      </Box>
+      <Box paddingX={CSSPadding.Small} style={{ textAlign: "left" }}>
+        <Stack direction="column" alignItems="left">
+          <Typography
+            variant="h6"
+            paddingBottom={CSSPadding.Tiny}
+            fontWeight={500}
+          >
+            {product.name}
+          </Typography>
+          <Typography
+            variant="h6"
+            color="GrayText"
+            paddingBottom={CSSPadding.Small}
+            fontWeight={500}
+          >
+            {product.material}
+          </Typography>
+          <Typography
+            fontSize={14}
+            fontWeight={FontWeight.Bold}
+            paddingBottom={CSSPadding.Decent}
+          >
+            {product.price * (1 - product.discount / 100)} BYN
+          </Typography>
+          <Delete
+            color="info"
+            onClick={() => dispatch(deleteFromCart(product.id))}
           />
-        </Grid>
-        <Grid item xs={5}>
-          <Box padding={CSSPadding.Small} style={{ textAlign: "left" }}>
-            <Stack direction="column">
-              <Typography
-                variant="h4"
-                height={100}
-                overflow="scroll"
-                fontWeight={500}
-              >
-                {product.name}
-              </Typography>
-              <Typography variant="h6" fontWeight={500}>
-                ID продукта: {product.id}
-              </Typography>
-              <Typography variant="h6" fontWeight={500}>
-                Стоимость: {product.price} BYN
-              </Typography>
-            </Stack>
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
+        </Stack>
+      </Box>
+    </Stack>
   );
 };

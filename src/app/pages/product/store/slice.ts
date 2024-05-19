@@ -28,7 +28,6 @@ const slice = createSlice({
       state.isBeingEdited = action.payload;
     },
     addComment: (state, action) => {
-      console.log(action.payload);
       state.data!.comments = [action.payload, ...state.data!.comments];
     },
     deleteComment: (state, action) => {

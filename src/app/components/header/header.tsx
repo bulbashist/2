@@ -7,7 +7,12 @@ import SearchComponent from "./components/search-component";
 import NavListComponent from "./components/nav-list";
 import LangComponent from "./components/lang-component";
 import { Link } from "react-router-dom";
-import { CSSGap, CSSMargin, CSSPadding } from "../../styles/constants";
+import {
+  CSSGap,
+  CSSMargin,
+  CSSPadding,
+  FontWeight,
+} from "../../styles/constants";
 import { HeaderWrapper } from "./styles";
 import { ShoppingCart } from "@mui/icons-material";
 
@@ -21,7 +26,7 @@ export const HeaderComponent = () => {
         paddingX={CSSPadding.Large + CSSMargin.Average}
       >
         <Stack direction="row" gap={CSSGap.Small} justifyContent="end">
-          <Link to="/">
+          <Link to="/seller">
             <Typography textAlign="end">Стать продавцом</Typography>
           </Link>
           <Link to="/offices">
@@ -32,7 +37,9 @@ export const HeaderComponent = () => {
       <Toolbar>
         <HeaderWrapper>
           <Link to="/">
-            <Typography>{t("header_project_name")}</Typography>
+            <Typography variant="h5" fontWeight={FontWeight.Bold}>
+              {t("header_project_name")}
+            </Typography>
           </Link>
           <NavListComponent />
           <SearchComponent />

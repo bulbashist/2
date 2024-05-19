@@ -5,6 +5,7 @@ import { CSSGap, CSSPadding } from "app/styles/constants";
 import CatalogComponent from "./components/products-list";
 import AsideBarComponent from "./components/aside-bar";
 import { Grid } from "@mui/material";
+import FilterPanelComponent from "./components/filter-panel";
 
 export const MainPage = () => {
   return (
@@ -15,13 +16,15 @@ export const MainPage = () => {
         padding={CSSPadding.Average}
         gap={CSSGap.Small}
       >
-        {/* <FilterPanelComponent /> */}
         <Grid container>
           <Grid item xs={3}>
             <AsideBarComponent />
           </Grid>
           <Grid item xs={9}>
-            <CatalogComponent />
+            <Stack direction="column" gap={CSSGap.Small}>
+              <FilterPanelComponent />
+              <CatalogComponent />
+            </Stack>
           </Grid>
         </Grid>
       </Stack>

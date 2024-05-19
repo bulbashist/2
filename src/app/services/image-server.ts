@@ -15,7 +15,6 @@ export class ImageServer {
         },
       }
     );
-    console.log(response.data.data.link);
     return response.data.data.link;
   }
 

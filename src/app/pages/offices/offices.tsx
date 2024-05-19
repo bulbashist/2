@@ -13,7 +13,10 @@ export const OfficesPage = () => {
   const [info, setInfo] = useState<string>("");
 
   useEffect(() => {
-    axios.get<Office[]>(officesURI).then((res) => setOffices(res.data));
+    axios
+      .get<Office[]>(officesURI)
+      .then((res) => setOffices(res.data))
+      .catch(console.log);
   }, []);
 
   return (
@@ -21,7 +24,7 @@ export const OfficesPage = () => {
       <Typography>{info}</Typography>
       <Map
         style={{ height: "80vh" }}
-        mapboxAccessToken="pk.eyJ1IjoiYnVsYmFzaGlzdCIsImEiOiJjbHcwZnI3MmMwMGdsMmtvY3c2b3N6cGM0In0.hvpXPIAfxQYXN0VV0-I1oQ"
+        mapboxAccessToken={process.env.REACT_APP_MAP_TOKEN}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         initialViewState={{
           longitude: 27.55,

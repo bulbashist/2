@@ -37,12 +37,12 @@ class WSOrderConnection {
         store.dispatch(addOrder(payload));
       });
 
-      this.socket.on("updateOrder", (payload: any) => {
+      this.socket.on(WSOrderEvents.UpdateOrder, (payload: any) => {
         store.dispatch(changeOrderStatus(payload));
       });
 
-      this.socket.on("removeOrder", (payload: number) => {
-        store.dispatch(deleteOrder(payload));
+      this.socket.on(WSOrderEvents.RemoveOrder, (id: number) => {
+        store.dispatch(deleteOrder(id));
       });
     }
   }

@@ -5,7 +5,7 @@ export const PageWrapperComponent = ({ children }: any) => {
   return (
     <>
       <HeaderComponent />
-      <Container>
+      <Container maxWidth="xl">
         <Card>{children}</Card>
       </Container>
     </>

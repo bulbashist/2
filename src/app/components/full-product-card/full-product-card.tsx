@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -17,10 +18,15 @@ import {
   FontWeight,
 } from "app/styles/constants";
 import { useDispatch } from "react-redux";
-import { addToCart } from "app/pages/cart/slice";
+import { addToCart, changeProductAmount } from "app/pages/cart/slice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { Link, useNavigate } from "react-router-dom";
-import { DeleteForever, EditNote } from "@mui/icons-material";
+import {
+  AddOutlined,
+  DeleteForever,
+  EditNote,
+  RemoveOutlined,
+} from "@mui/icons-material";
 import axios from "axios";
 import { productsURI } from "app/constants/urls";
 import { removeProduct, setEditingState } from "app/pages/product/store/slice";
@@ -31,8 +37,29 @@ type Props = {
 
 export const FullProductCardComponent = ({ product }: Props) => {
   const { id: userId, rights } = useAppSelector((state) => state.core);
+  const cartProduct = useAppSelector((state) => state.cart).find(
+    (p) => p.product.id === product.id
+  );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const addOne = () => {
+    dispatch(
+      changeProductAmount({
+        id: product.id,
+        amount: cartProduct!.count + 1,
+      })
+    );
+  };
+
+  const removeOne = () => {
+    dispatch(
+      changeProductAmount({
+        id: product.id,
+        amount: cartProduct!.count - 1,
+      })
+    );
+  };
 
   return (
     <Card raised>
@@ -53,8 +80,12 @@ export const FullProductCardComponent = ({ product }: Props) => {
             ) : null}
           </Stack>
         </Box>
-        <Grid container gap={CSSGap.Tiny} padding={CSSPadding.Small}>
-          <Grid item xs={6}>
+        <Grid
+          container
+          padding={CSSPadding.Small}
+          justifyContent="space-around"
+        >
+          <Grid item xs={5}>
             <img
               src={product.photos[0]?.url ?? defImg}
               width="100%"
@@ -63,49 +94,79 @@ export const FullProductCardComponent = ({ product }: Props) => {
               alt=""
             />
           </Grid>
-          <Grid item xs={5}>
-            <Box padding={CSSPadding.Small} style={{ textAlign: "left" }}>
-              <Stack direction="column">
-                <Typography variant="h3" fontWeight={FontWeight.Normal}>
-                  {product.name}
-                </Typography>
-                <List>
-                  <Typography variant="h5">
-                    <Link to={`/users/${product.seller.id}`}>
-                      Продавец: {product.seller.name}
-                    </Link>
+          <Grid item xs={6}>
+            <Box textAlign="left">
+              <Stack direction="row" justifyContent="space-between">
+                <Stack direction="column">
+                  <Typography variant="h3" fontWeight={FontWeight.Normal}>
+                    {product.name}
                   </Typography>
-                  <p>Длина: {product.width}</p>
-                  <p>Ширина: {product.breadth}</p>
-                  <p>Высота: {product.height}</p>
-                  <p>Тип: {product.category.name}</p>
-                  <p>Производитель: {product.manufacturer.name}</p>
-                </List>
-                <Card variant="outlined">
-                  <Box padding={CSSPadding.Small}>
-                    <Box marginBottom={CSSMargin.Tiny}>
-                      <Stack direction="row" gap={CSSGap.Decent}>
-                        <Typography color="GrayText">
-                          {product.price} BYN{" "}
-                        </Typography>
-                        <Typography
-                          color="GrayText"
-                          sx={{ textDecoration: "line-through" }}
+                  <List>
+                    <p>Длина, см: {product.width}</p>
+                    <p>Ширина, см: {product.breadth}</p>
+                    <p>Высота, см: {product.height}</p>
+                    <p>Тип: {product.category.name}</p>
+                    <p>Производитель: {product.manufacturer.name}</p>
+                  </List>
+                  <Card variant="outlined">
+                    <Box padding={CSSPadding.Small}>
+                      <Box marginBottom={CSSMargin.Tiny}>
+                        <Stack direction="row" gap={CSSGap.Decent}>
+                          <Typography color="GrayText">
+                            {product.price * (1 - product.discount / 100)} BYN{" "}
+                          </Typography>
+                          <Typography
+                            color="GrayText"
+                            sx={{ textDecoration: "line-through" }}
+                          >
+                            {product.price} BYN{" "}
+                          </Typography>
+                        </Stack>
+                      </Box>
+
+                      {cartProduct ? (
+                        <Stack direction="row" alignItems="center">
+                          <Button variant="contained" color="success">
+                            <Link to="/cart">В корзине</Link>
+                          </Button>
+                          <Button onClick={removeOne}>
+                            <RemoveOutlined />
+                          </Button>
+                          <Typography>{cartProduct.count}</Typography>
+                          <Button onClick={addOne}>
+                            <AddOutlined />
+                          </Button>
+                        </Stack>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          fullWidth
+                          disabled={!userId}
+                          onClick={() =>
+                            dispatch(addToCart({ product, count: 1 }))
+                          }
                         >
-                          {+product.price + 4} BYN{" "}
-                        </Typography>
-                      </Stack>
+                          Добавить в корзину
+                        </Button>
+                      )}
                     </Box>
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      disabled={!userId}
-                      onClick={() => dispatch(addToCart({ product, count: 1 }))}
-                    >
-                      Добавить в корзину
-                    </Button>
-                  </Box>
-                </Card>
+                  </Card>
+                </Stack>
+                <Box>
+                  <ListItem>
+                    <Avatar sx={{ marginRight: CSSMargin.Small }} />
+                    <List>
+                      <Typography variant="subtitle2">
+                        {product.seller.name}
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        <Link to={`/users/${product.seller.id}`}>
+                          Перейти к продавцу
+                        </Link>
+                      </Typography>
+                    </List>
+                  </ListItem>
+                </Box>
               </Stack>
             </Box>
           </Grid>

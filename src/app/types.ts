@@ -36,6 +36,10 @@ export type Product = {
   photos: Photo[];
   comments: Comment[];
   avgRating?: number;
+  totalComms?: number;
+  material: string;
+  outOfStock: boolean;
+  discount: number;
 };
 
 export type Transaction = {
@@ -63,6 +67,7 @@ export type Paycard = {
   cardNumber: string;
   validThrough: string;
   cvv: number;
+  credentials: string;
 };
 
 export type User = {

@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { themes } from "./app/themes/theme";
 
 import AdminPage from "./app/pages/admin";
-import CompositionPage from "./app/pages/order";
+import OrderPage from "./app/pages/order";
 import OrdersPage from "./app/pages/orders";
 import MainPage from "./app/pages/main";
 import NoPage from "./app/pages/404";
@@ -17,18 +17,21 @@ import UserPage from "./app/pages/user";
 import ProductPage from "app/pages/product";
 import CartPage from "app/pages/cart/cart";
 import OfficesPage from "app/pages/offices";
+import SellerSignPage from "app/pages/seller";
+import StatsPage from "app/pages/stats";
 
 const router = createBrowserRouter([
   { path: "/", element: <MainPage /> },
   { path: "/users/:id", element: <UserPage /> },
-  { path: "/orders/:id", element: <CompositionPage /> },
+  { path: "/orders/:id", element: <OrderPage /> },
   { path: "/admin", element: <AdminPage /> },
   { path: "/search", element: <SearchPage /> },
   { path: "/orders", element: <OrdersPage /> },
   { path: "/cart", element: <CartPage /> },
   { path: "/products/:id", element: <ProductPage /> },
   { path: "/offices", element: <OfficesPage /> },
-
+  { path: "/seller", element: <SellerSignPage /> },
+  { path: "/stats", element: <StatsPage /> },
   { path: "*", element: <NoPage /> },
 ]);
 

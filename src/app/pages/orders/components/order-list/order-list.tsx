@@ -17,18 +17,15 @@ import { Link } from "react-router-dom";
 import DeleteForever from "@mui/icons-material/DeleteForever";
 import { KeyboardDoubleArrowRight } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import {
-  changeOrderStatusFromList,
-  deleteOrderFromList,
-} from "../../store/slice";
-import { CartProduct } from "app/pages/cart/slice";
 import { orderWSC } from "../../services/order-connection";
 import { WSOrderEvents } from "app/pages/product/components/comment-block/services/types";
+import { Order } from "../../types";
 
 const options = ["Принят", "Обрабатывается", "В пути", "Доставлен", "Получен"];
 
 export const OrderListComponent = () => {
   const { data } = useAppSelector((state) => state.orders);
+  // const {} = useAppSelector(state => state.a)
   const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
 
@@ -41,17 +38,18 @@ export const OrderListComponent = () => {
   if (!data) return null;
 
   const changeStatusHandler = (id: number, statusId: number) => {
-    dispatch(changeOrderStatusFromList({ id, statusId }));
+    orderWSC.emit(WSOrderEvents.UpdateOrder, {
+      id,
+      status: { id: statusId },
+    });
   };
 
   const deleteHandler = (id: number) => {
-    dispatch(deleteOrderFromList(id));
+    orderWSC.emit(WSOrderEvents.RemoveOrder, id);
   };
 
-  const getTotal = (objs: CartProduct[]) => {
-    return objs
-      .reduce((acc, curr) => acc + curr.product.price * curr.count, 0)
-      .toFixed(2);
+  const getTotal = (order: Order) => {
+    return order.products.reduce((acc, curr) => acc + +curr.sum, 0).toFixed(2);
   };
 
   return (
@@ -74,7 +72,7 @@ export const OrderListComponent = () => {
                 >
                   <Button
                     color="error"
-                    variant="contained"
+                    variant="text"
                     onClick={() => deleteHandler(order.id)}
                   >
                     <DeleteForever />
@@ -90,11 +88,7 @@ export const OrderListComponent = () => {
                 <List>
                   {order.products.map((obj, i) => (
                     <ListItem key={i}>
-                      <Typography
-                        marginRight={CSSMargin.Small}
-                        width={200}
-                        overflow="scroll"
-                      >
+                      <Typography marginRight={CSSMargin.Tiny} width={200}>
                         {obj.product.name}
                       </Typography>
                       <Typography marginRight={CSSMargin.Small}>
@@ -112,19 +106,23 @@ export const OrderListComponent = () => {
                   bottom={0}
                   margin={CSSMargin.Small}
                 >
-                  <Typography>{getTotal(order.products)} BYN</Typography>
-                  <Select
-                    defaultValue={order.status.id - 1}
-                    onChange={(e) =>
-                      changeStatusHandler(order.id, +e.target.value + 1)
-                    }
-                  >
-                    {options.map((opt, i) => (
-                      <MenuItem key={i} value={i}>
-                        {opt}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  <Stack direction="column" alignItems="end">
+                    <Typography>{getTotal(order)} BYN</Typography>
+                    <Typography>{order.office.location}</Typography>
+                    <Select
+                      sx={{ width: "170px" }}
+                      defaultValue={order.status.id}
+                      onChange={(e) =>
+                        changeStatusHandler(order.id, +e.target.value)
+                      }
+                    >
+                      {options.map((opt, i) => (
+                        <MenuItem key={i} value={i}>
+                          {opt}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Stack>
                 </Box>
               </Box>
             </Card>

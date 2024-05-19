@@ -1,12 +1,5 @@
-import axios from "axios";
-import {
-  DeepPartial,
-  PayloadAction,
-  createAsyncThunk,
-  createSlice,
-} from "@reduxjs/toolkit";
-import { ordersURI } from "app/constants/urls";
-import { Order, OrderStatus, PatchOrderListDTO } from "app/pages/orders/types";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { Order } from "app/pages/orders/types";
 
 type State = {
   data: Order[] | null;
@@ -21,27 +14,6 @@ const initialState: State = {
 };
 
 //TODO: ADD pagination
-
-const changeOrderStatusFromList = createAsyncThunk(
-  "orderlist-change-status",
-  async (data: PatchOrderListDTO) => {
-    return axios
-      .patch(ordersURI + data.id, {
-        status: {
-          id: data.statusId,
-        },
-      })
-      .then(() => data);
-  }
-);
-
-const deleteOrderFromList = createAsyncThunk(
-  "orderlist-delete",
-  async (id: number) => {
-    return axios.delete<number>(ordersURI + id).then((resp) => resp.data);
-  }
-);
-
 const slice = createSlice({
   name: "orders",
   initialState,
@@ -77,7 +49,6 @@ const slice = createSlice({
   },
 });
 
-export { deleteOrderFromList, changeOrderStatusFromList };
 export const {
   setOrders,
   addOrder,

@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { categoriesURI } from "app/constants/urls";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { Category } from "app/types";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import { changeCategory } from "../../store/slice";
 
 export const AsideBarComponent = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const category = useAppSelector((state) => state.main.category);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,12 +25,21 @@ export const AsideBarComponent = () => {
   return (
     <Box>
       <Stack direction="column" alignItems="flex-start">
-        <Button onClick={() => btnHandler(null)}>
-          <Typography textAlign="left">Все категории</Typography>
+        <Button color="inherit" onClick={() => btnHandler(null)}>
+          <Typography textAlign="left" textTransform="none">
+            Все категории
+          </Typography>
         </Button>
         {categories.map((cat) => (
-          <Button key={cat.id} onClick={() => btnHandler(cat.name)}>
-            <Typography textAlign="left">{cat.name}</Typography>
+          <Button
+            variant="text"
+            color={category === cat.name ? "info" : "inherit"}
+            key={cat.id}
+            onClick={() => btnHandler(cat.name)}
+          >
+            <Typography textAlign="left" textTransform="none">
+              {cat.name}
+            </Typography>
           </Button>
         ))}
       </Stack>

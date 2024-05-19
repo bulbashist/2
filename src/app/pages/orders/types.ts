@@ -19,6 +19,7 @@ export type Order = {
   products: {
     product: Product;
     count: number;
+    sum: number;
   }[];
   transaction: Transaction;
   office: Office;

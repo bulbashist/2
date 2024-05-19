@@ -12,26 +12,33 @@ import {
   Typography,
 } from "@mui/material";
 import defImg from "app/assets/default.webp";
-import { CSSGap, CSSPadding } from "app/styles/constants";
+import { CSSGap, CSSPadding, FontWeight } from "app/styles/constants";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
+import { ReviewsOutlined } from "@mui/icons-material";
 
 export const CatalogComponent = () => {
-  const category = useAppSelector((state) => state.main.category);
+  const { category, filter } = useAppSelector((state) => state.main);
   const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    const URI = getCategoryProductsURI(category, page);
+    const URI = getCategoryProductsURI(category, filter, page);
 
     axios
       .get(URI)
       .then((resp) => setProducts(resp.data))
       .catch(console.log);
-  }, [category, page]);
+  }, [category, page, filter]);
 
   return (
-    <Stack direction="column" gap={CSSGap.Small} width="100%">
+    <Stack
+      position="relative"
+      direction="column"
+      gap={CSSGap.Small}
+      width="100%"
+      height="100%"
+    >
       <Grid container gap={CSSGap.Small} columns={13}>
         {products.map((product) => (
           <Grid item xs={3} key={product.id}>
@@ -39,12 +46,12 @@ export const CatalogComponent = () => {
               <Box padding={CSSPadding.Small}>
                 <Grid container gap={CSSGap.Tiny}>
                   <Grid item xs={12}>
-                    <Box height={200}>
+                    <Box height={170}>
                       <Link to={`/products/${product.id}`}>
                         <img
                           width="100%"
                           height="100%"
-                          style={{ objectFit: "contain" }}
+                          style={{ objectFit: "cover" }}
                           src={product.photos[0]?.url ?? defImg}
                           alt=""
                         />
@@ -52,36 +59,49 @@ export const CatalogComponent = () => {
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography textAlign="left">
+                    <Typography
+                      textAlign="left"
+                      fontWeight={FontWeight.Bold}
+                      fontSize="18px"
+                    >
                       {product.price} BYN
                     </Typography>
                   </Grid>
-                  <Grid item xs={12}>
-                    <Typography textAlign="left">
-                      {product.manufacturer.name}
-                    </Typography>
-                  </Grid>
                   <Grid item xs={12} height={45} overflow="hidden">
-                    <Typography textAlign="left">
+                    <Typography textAlign="left" fontWeight={FontWeight.Bold}>
                       <Link to={`/products/${product.id}`}>{product.name}</Link>
                     </Typography>
                   </Grid>
-                  <Rating value={product.avgRating} readOnly />
+                  <Grid item xs={12}>
+                    <Stack direction="row" gap={CSSGap.Tiny}>
+                      <Rating value={product.avgRating} readOnly />
+                      <Typography color="GrayText">
+                        {product.avgRating}
+                      </Typography>
+                    </Stack>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Stack direction="row" gap={CSSGap.Tiny}>
+                      <ReviewsOutlined />
+                      <Typography>{product.totalComms} отзывов</Typography>
+                    </Stack>
+                  </Grid>
                 </Grid>
               </Box>
             </Card>
           </Grid>
         ))}
       </Grid>
-      <Pagination
-        sx={{ alignSelf: "end" }}
-        page={page}
-        onChange={(_, value) => {
-          setPage(value);
-          window.scroll(0, 0);
-        }}
-        count={10}
-      />
+      <Box alignSelf="end">
+        <Pagination
+          page={page}
+          onChange={(_, value) => {
+            setPage(value);
+            window.scroll(0, 0);
+          }}
+          count={10}
+        />
+      </Box>
     </Stack>
   );
 };

@@ -1,11 +1,11 @@
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import NoPage from "app/pages/404";
 import PageWrapperComponent from "app/components/page-wrapper";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { CSSGap, CSSMargin } from "app/styles/constants";
+import { CSSGap, CSSMargin, CSSPadding } from "app/styles/constants";
 import OrderListComponent from "./components/order-list";
 import { changeUserName, getUserData } from "./store/slice";
 import styles from "app/styles/animations.module.css";
@@ -13,7 +13,6 @@ import PaycardFormComponent from "./components/paycard-form";
 import GoodsListComponent from "./components/goods-list";
 import { UserRights } from "app/types";
 import { Box, Button, Dialog, Input, List } from "@mui/material";
-import CreateProductForm from "app/components/utility/add-review-form";
 
 export const UserPage = () => {
   const { data, loading } = useAppSelector((state) => state.user);
@@ -59,14 +58,27 @@ export const UserPage = () => {
         </Box>
       </Dialog>
       <Stack direction="column" gap={CSSGap.Average} margin={CSSMargin.Average}>
-        <Stack direction="row-reverse">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          paddingX={CSSPadding.Average}
+        >
+          <Button>
+            <Link to="/stats">
+              <Typography>Просмотреть статистику</Typography>
+            </Link>
+          </Button>
           <List>
             <Typography variant="h5" marginRight={CSSMargin.Average}>
               {data.name}
             </Typography>
-            <Button onClick={() => setNameDialog(true)}>
-              <Typography textTransform="none">Сменить имя</Typography>
-            </Button>
+            {id === data?.id ? (
+              <Button onClick={() => setNameDialog(true)}>
+                <Typography textTransform="none">Сменить имя</Typography>
+              </Button>
+            ) : (
+              <></>
+            )}
           </List>
         </Stack>
         {shouldBeVisible() ? (
@@ -77,7 +89,7 @@ export const UserPage = () => {
         ) : (
           <></>
         )}
-        <GoodsListComponent userId={data.id} />
+        <GoodsListComponent />
       </Stack>
     </PageWrapperComponent>
   );

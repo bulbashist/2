@@ -4,10 +4,10 @@ import PageWrapperComponent from "app/components/page-wrapper";
 import NoPage from "app/pages/404";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import UpdateProductForm from "./components/product-form";
-import ReviewCardComponent from "./components/review-card";
 import { getProduct, setEditingState } from "./store/slice";
 import styles from "app/styles/animations.module.css";
 import CommentBlockComponent from "./components/comment-block";
+import FullProductCardComponent from "app/components/full-product-card";
 
 export const ProductPage = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ export const ProductPage = () => {
         isOpen={isBeingEdited}
         close={() => dispatch(setEditingState(false))}
       />
-      <ReviewCardComponent product={data} />
+      <FullProductCardComponent product={data} />
       <CommentBlockComponent comments={data.comments} />
     </PageWrapperComponent>
   );
