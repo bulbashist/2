@@ -16,9 +16,13 @@ import { CSSGap, CSSPadding, FontWeight } from "app/styles/constants";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
 import { ReviewsOutlined } from "@mui/icons-material";
+import styles from "app/styles/animations.module.css";
 
 export const CatalogComponent = () => {
   const { category, filter } = useAppSelector((state) => state.main);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
 
@@ -28,8 +32,29 @@ export const CatalogComponent = () => {
     axios
       .get(URI)
       .then((resp) => setProducts(resp.data))
-      .catch(console.log);
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
   }, [category, page, filter]);
+
+  if (loading) {
+    return (
+      <Box position="relative" flexGrow={1} height="100%">
+        <div className={styles.loading} />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box position="relative" flexGrow={1} height="100%">
+        <Stack direction="column" justifyContent="center" height="100%">
+          <Typography variant="h4">
+            Произошла ошибка, попробуйте позже
+          </Typography>
+        </Stack>
+      </Box>
+    );
+  }
 
   return (
     <Stack
@@ -39,7 +64,14 @@ export const CatalogComponent = () => {
       width="100%"
       height="100%"
     >
-      <Grid container gap={CSSGap.Small} columns={13}>
+      <Grid container gap={CSSGap.Small} columns={13} height="100%">
+        {products.length === 0 ? (
+          <Box position="relative" flexGrow={1} height="100%">
+            <Stack direction="column" justifyContent="center" height="100%">
+              <Typography variant="h4">Товары не найдены</Typography>
+            </Stack>
+          </Box>
+        ) : null}
         {products.map((product) => (
           <Grid item xs={3} key={product.id}>
             <Card raised>

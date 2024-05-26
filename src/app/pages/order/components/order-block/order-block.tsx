@@ -1,36 +1,25 @@
+import { Box, Card, Stack, Typography } from "@mui/material";
 import {
-  Box,
-  Button,
-  Card,
-  Grid,
-  List,
-  ListItem,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { CSSGap, CSSMargin, CSSPadding } from "app/styles/constants";
-
+  CSSGap,
+  CSSMargin,
+  CSSPadding,
+  FontWeight,
+} from "app/styles/constants";
 import { useTranslation } from "react-i18next";
 import { Order } from "app/pages/orders/types";
-import FullProductCardComponent from "app/components/full-product-card";
 import { Product } from "app/types";
 import defImg from "app/assets/default.webp";
+import { Link } from "react-router-dom";
 
 type Props = {
   order: Order;
 };
 
 export const OrderBlockComponent = ({ order }: Props) => {
-  const userId = useAppSelector((state) => state.core.id);
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const getTotal = () => {
-    return order.products.reduce(
-      (acc, curr) => acc + curr.product.price * curr.count,
-      0
-    );
+    return order.products.reduce((acc, curr) => acc + +curr.sum, 0).toFixed(2);
   };
 
   return (
@@ -40,12 +29,14 @@ export const OrderBlockComponent = ({ order }: Props) => {
         <Stack direction="column" gap={CSSGap.Small}>
           {order.products.map((obj, i) => (
             <Card raised key={i}>
-              <Box padding={CSSPadding.Small}>
-                <FullProductCardComponent2 product={obj.product} />
-                <Typography variant="h4" textAlign="right">
-                  Количество: {obj.count}
-                </Typography>
-              </Box>
+              <Link to={`/products/${obj.product.id}`}>
+                <Box padding={CSSPadding.Small}>
+                  <FullProductCardComponent2
+                    product={obj.product}
+                    count={obj.count}
+                  />
+                </Box>
+              </Link>
             </Card>
           ))}
         </Stack>
@@ -59,38 +50,47 @@ export const OrderBlockComponent = ({ order }: Props) => {
 
 type Props2 = {
   product: Product;
+  count: number;
 };
 
-export const FullProductCardComponent2 = ({ product }: Props2) => {
+export const FullProductCardComponent2 = ({ product, count }: Props2) => {
   return (
-    <Box margin={CSSMargin.Tiny}>
-      <Grid container gap={CSSGap.Tiny}>
-        <Grid item xs={6}>
-          <img src={product.photos[0]?.url ?? defImg} width={200} alt="" />
-        </Grid>
-        <Grid item xs={5}>
-          <Box padding={CSSPadding.Small} style={{ textAlign: "left" }}>
-            <Stack direction="column">
-              <Typography variant="h3" fontWeight={500}>
-                {product.name}
-              </Typography>
-              <Typography variant="h6" fontWeight={500}>
-                ID продукта: {product.id}
-              </Typography>
-              <Typography variant="h6" fontWeight={500}>
-                Стоимость: {product.price} BYN
-              </Typography>
-            </Stack>
-          </Box>
-        </Grid>
-        <Grid item xs={12}>
-          <List>
-            {product.photos.map((photo) => (
-              <img src={photo.url} alt="" />
-            ))}
-          </List>
-        </Grid>
-      </Grid>
-    </Box>
+    <Stack direction="row">
+      <Box>
+        <img
+          src={product.photos[0]?.url ?? defImg}
+          width={150}
+          height={170}
+          alt=""
+          style={{ objectFit: "contain" }}
+        />
+      </Box>
+      <Box paddingX={CSSPadding.Small} style={{ textAlign: "left" }}>
+        <Stack direction="column" alignItems="left">
+          <Typography
+            variant="h6"
+            paddingBottom={CSSPadding.Tiny}
+            fontWeight={500}
+          >
+            {product.name}
+          </Typography>
+          <Typography
+            variant="h6"
+            color="GrayText"
+            paddingBottom={CSSPadding.Small}
+            fontWeight={500}
+          >
+            {product.material}
+          </Typography>
+          <Typography
+            fontSize={14}
+            fontWeight={FontWeight.Bold}
+            paddingBottom={CSSPadding.Decent}
+          >
+            Количество: {count}
+          </Typography>
+        </Stack>
+      </Box>
+    </Stack>
   );
 };

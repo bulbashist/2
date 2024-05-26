@@ -17,7 +17,6 @@ import {
   CSSPadding,
   FontWeight,
 } from "app/styles/constants";
-import { useDispatch } from "react-redux";
 import { addToCart, changeProductAmount } from "app/pages/cart/slice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { Link, useNavigate } from "react-router-dom";
@@ -27,8 +26,6 @@ import {
   EditNote,
   RemoveOutlined,
 } from "@mui/icons-material";
-import axios from "axios";
-import { productsURI } from "app/constants/urls";
 import { removeProduct, setEditingState } from "app/pages/product/store/slice";
 
 type Props = {
@@ -42,6 +39,10 @@ export const FullProductCardComponent = ({ product }: Props) => {
   );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const getTotal = (product: Product) => {
+    return (product.price * (1 - product.discount / 100)).toFixed(2);
+  };
 
   const addOne = () => {
     dispatch(
@@ -113,7 +114,7 @@ export const FullProductCardComponent = ({ product }: Props) => {
                       <Box marginBottom={CSSMargin.Tiny}>
                         <Stack direction="row" gap={CSSGap.Decent}>
                           <Typography color="GrayText">
-                            {product.price * (1 - product.discount / 100)} BYN{" "}
+                            {getTotal(product)} BYN
                           </Typography>
                           <Typography
                             color="GrayText"

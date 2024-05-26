@@ -67,25 +67,34 @@ const CartPage = () => {
   const paymentHandler = async () => {
     if (!userId) return;
 
-    const response = await initiatePayment();
-    if (response && products.length !== 0) {
-      await printCheck(products);
+    const response = await initiatePayment(getTotal());
+    // if (response && products.length !== 0) {
+    //   await printCheck(products);
 
-      if (selectedOfficeId) {
-        const arg = {
-          products,
-          office: { id: selectedOfficeId },
-          user: { id: userId },
-          status: { id: 1 },
-        };
+    //   if (selectedOfficeId) {
+    //     const arg = {
+    //       products,
+    //       office: { id: selectedOfficeId },
+    //       user: { id: userId },
+    //       status: { id: 1 },
+    //     };
 
-        orderWSC.connect(process.env.REACT_APP_WS_SERVER!, "76");
-        orderWSC.emit(WSOrderEvents.CreateOrder, arg);
-        dispatch(resetCart());
-      }
-      navigate("/");
-    }
+    //     orderWSC.connect(process.env.REACT_APP_WS_SERVER!, "76");
+    //     orderWSC.emit(WSOrderEvents.CreateOrder, arg);
+    //     dispatch(resetCart());
+    //   }
+    //   navigate("/");
+    // }
   };
+
+  // return (
+  //   <Elements stripe={stripe} options={opts}>
+  //     <form>
+  //       <PaymentElement />
+  //       <button>ff</button>
+  //     </form>
+  //   </Elements>
+  // );
 
   if (!userId) {
     return (
@@ -136,7 +145,7 @@ const CartPage = () => {
                 //@ts-ignore
                 renderInput={(params) => <TextField {...params} />}
               />
-              <Autocomplete
+              {/* <Autocomplete
                 sx={{ width: 300 }}
                 options={paycards.map((paycard) => ({
                   label: paycard.cardNumber,
@@ -148,13 +157,13 @@ const CartPage = () => {
                 }}
                 //@ts-ignore
                 renderInput={(params) => <TextField {...params} />}
-              />
+              /> */}
               <Stack direction="row" alignItems="center" gap={CSSGap.Small}>
                 <Typography>Всего: {getTotal()}</Typography>
                 <PaymentButton
                   disabled={
                     !selectedOfficeId ||
-                    !selectedPaycardId ||
+                    // !selectedPaycardId ||
                     products.length === 0
                   }
                   onClick={() => paymentHandler()}

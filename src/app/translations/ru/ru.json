@@ -62,6 +62,14 @@
 
     "no_reviews": "Не найдено отзывов, соответствующих критериям",
 
-    "create_product_form_title": "Форма добавления товара"
+    "create_product_form_title": "Форма добавления товара",
+
+    "seller_email": "Почта",
+    "seller_code": "Код верификации",
+    "seller_password": "Пароль",
+    "seller_name": "Имя",
+    "seller_phone": "Телефон",
+    "seller_code_btn": "Прислать код",
+    "seller_register_btn": "Зарегистрироваться"
   }
 }

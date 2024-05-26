@@ -62,6 +62,14 @@
 
     "no_reviews": "No reviews are matched this criteria, try another one",
 
-    "create_product_form_title": "Publish new product"
+    "create_product_form_title": "Publish new product",
+
+    "seller_email": "Email",
+    "seller_code": "Verification code",
+    "seller_password": "Password",
+    "seller_name": "Name",
+    "seller_phone": "Phone",
+    "seller_code_btn": "Send code",
+    "seller_register_btn": "Sign in"
   }
 }

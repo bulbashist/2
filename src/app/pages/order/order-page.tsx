@@ -16,7 +16,7 @@ export const OrderPage = () => {
   useEffect(() => {
     if (id) {
       orderWSC.connect(process.env.REACT_APP_WS_SERVER!, "78");
-      orderWSC.emit(WSOrderEvents.FindOneOrder);
+      orderWSC.emit(WSOrderEvents.FindOneOrder, id);
       return () => orderWSC.close();
     }
   }, [id, dispatch]);

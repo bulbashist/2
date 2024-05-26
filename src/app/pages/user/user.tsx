@@ -9,7 +9,6 @@ import { CSSGap, CSSMargin, CSSPadding } from "app/styles/constants";
 import OrderListComponent from "./components/order-list";
 import { changeUserName, getUserData } from "./store/slice";
 import styles from "app/styles/animations.module.css";
-import PaycardFormComponent from "./components/paycard-form";
 import GoodsListComponent from "./components/goods-list";
 import { UserRights } from "app/types";
 import { Box, Button, Dialog, Input, List } from "@mui/material";
@@ -63,16 +62,18 @@ export const UserPage = () => {
           justifyContent="space-between"
           paddingX={CSSPadding.Average}
         >
-          <Button>
-            <Link to="/stats">
-              <Typography>Просмотреть статистику</Typography>
-            </Link>
-          </Button>
+          {data.id === id ? (
+            <Button>
+              <Link to="/stats">
+                <Typography>Просмотреть статистику</Typography>
+              </Link>
+            </Button>
+          ) : null}
           <List>
             <Typography variant="h5" marginRight={CSSMargin.Average}>
               {data.name}
             </Typography>
-            {id === data?.id ? (
+            {data.id === id ? (
               <Button onClick={() => setNameDialog(true)}>
                 <Typography textTransform="none">Сменить имя</Typography>
               </Button>
@@ -83,7 +84,7 @@ export const UserPage = () => {
         </Stack>
         {shouldBeVisible() ? (
           <>
-            <PaycardFormComponent cards={data.cards} />
+            <></>
             <OrderListComponent />
           </>
         ) : (

@@ -13,6 +13,8 @@ import { getUserData } from "app/store/core-reducer";
 import { CSSGap, CSSPadding } from "app/styles/constants";
 import { Check } from "@mui/icons-material";
 import { useNavigate } from "react-router";
+import Close from "@mui/icons-material/Close";
+import { Link } from "react-router-dom";
 
 type FormData = {
   password: string;
@@ -65,7 +67,12 @@ export const SellerSignPage = () => {
   return (
     <PageWrapperComponent>
       <Dialog open>
-        <Box padding={CSSPadding.Average} onClick={(e) => e.stopPropagation()}>
+        <Box position="absolute" top={16} right={16}>
+          <Link to="/">
+            <Close />
+          </Link>
+        </Box>
+        <Box padding={CSSPadding.Decent} onClick={(e) => e.stopPropagation()}>
           <form onSubmit={handleSubmit(registerUser)}>
             <Box minWidth="250px">
               <Stack direction="column" alignItems="center" gap={CSSGap.Small}>
@@ -77,41 +84,41 @@ export const SellerSignPage = () => {
                 >
                   <Input
                     type="email"
-                    placeholder={t("login_popup_email")}
+                    placeholder={t("seller_email")}
                     required
                     inputRef={mailInput}
                   />
                   {success ? (
                     <Check color="success" />
                   ) : (
-                    <Button onClick={sendMail}>Send code</Button>
+                    <Button onClick={sendMail}>{t("seller_code_btn")}</Button>
                   )}
                 </Stack>
                 <Input
                   type="text"
-                  placeholder={t("verification code")}
+                  placeholder={t("seller_code")}
                   fullWidth
                   {...register("vcode", { required: true })}
                 />
                 <Input
                   type="password"
-                  placeholder={t("login_popup_password")}
+                  placeholder={t("seller_password")}
                   fullWidth
                   {...register("password", { required: true })}
                 />
                 <Input
                   type="text"
                   fullWidth
-                  placeholder={t("login_popup_name")}
+                  placeholder={t("seller_name")}
                   {...register("name", { required: true })}
                 />
                 <Input
                   type="text"
                   fullWidth
-                  placeholder={t("login_popup_phone")}
+                  placeholder={t("seller_phone")}
                   {...register("phone", { required: true })}
                 />
-                <Button type="submit">{t("login_popup_signin")}</Button>
+                <Button type="submit">{t("seller_register_btn")}</Button>
               </Stack>
             </Box>
           </form>
