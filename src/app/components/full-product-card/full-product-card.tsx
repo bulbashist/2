@@ -103,6 +103,7 @@ export const FullProductCardComponent = ({ product }: Props) => {
                     {product.name}
                   </Typography>
                   <List>
+                    <p>{product.description}</p>
                     <p>Длина, см: {product.width}</p>
                     <p>Ширина, см: {product.breadth}</p>
                     <p>Высота, см: {product.height}</p>
