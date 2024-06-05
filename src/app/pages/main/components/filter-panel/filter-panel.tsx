@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../../../hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { changeFilter } from "../../store/slice";
-import { CSSGap } from "../../../../styles/constants";
+import { CSSGap } from "app/styles/constants";
 import { useTranslation } from "react-i18next";
 import { sortVariants } from "app/pages/user/types";
 

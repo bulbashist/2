@@ -27,10 +27,10 @@ export const HeaderComponent = () => {
       >
         <Stack direction="row" gap={CSSGap.Small} justifyContent="end">
           <Link to="/seller">
-            <Typography textAlign="end">Стать продавцом</Typography>
+            <Typography textAlign="end">{t("header_seller_btn")}</Typography>
           </Link>
           <Link to="/offices">
-            <Typography textAlign="end">Пункты выдачи</Typography>
+            <Typography textAlign="end">{t("header_offices_btn")}</Typography>
           </Link>
         </Stack>
       </Box>

@@ -5,10 +5,11 @@
     "word_submit": "Подтвердить",
     "word_comments": "Комментарии",
 
+    "header_seller_btn": "Стать продавцом",
+    "header_offices_btn": "Пункты выдачи",
     "header_project_name": "Магазин",
     "header_search_placeholder": "Поиск по сайту",
-    "header_nav_reviews": "Отзывы",
-    "header_nav_compositions": "Заказы",
+    "header_nav_orders": "Заказы",
     "header_nav_admin": "Пользователи",
     "header_ru_lang": "Русский",
     "header_en_lang": "Английский",
@@ -26,6 +27,7 @@
 
     "main_popular": "Популярные",
     "main_newest": "Новые",
+    "product_list_reviews": "Отзывов",
 
     "reviews_rating": "Рейтинг",
 

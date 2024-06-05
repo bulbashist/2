@@ -13,7 +13,7 @@ export const AdminCellComponent = ({ user }: Props) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const isAdmin = user.role.rights & 0b010 ? true : false;
+  const isAdmin = user.role.id === UserRoleEnum.ADMIN;
 
   return !isAdmin ? (
     <Slider

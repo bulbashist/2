@@ -5,9 +5,10 @@
     "word_submit": "Submit",
     "word_comments": "Comments",
 
-    "header_project_name": "Final Project",
-    "header_nav_reviews": "Reviews",
-    "header_nav_compositions": "Compositions",
+    "header_seller_btn": "Become a seller",
+    "header_offices_btn": "Delivery points",
+    "header_project_name": "Shop",
+    "header_nav_orders": "Orders",
     "header_nav_admin": "Users",
     "header_search_placeholder": "Site search",
     "header_ru_lang": "Russian",
@@ -26,6 +27,7 @@
 
     "main_popular": "Popular",
     "main_newest": "Newest",
+    "product_list_reviews": "reviews",
 
     "reviews_rating": "Rating",
 

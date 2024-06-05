@@ -17,8 +17,11 @@ export const paycardsURI = baseURI + "/paycards/";
 export const categoriesURI = baseURI + "/product-categories/";
 export const manufacturersURI = baseURI + "/product-manufacturers/";
 
-export const getSearchURI = (text: string) =>
-  baseURI + `/products/search/?text=${text}`;
+export const getSearchURI = (text: string, page: number) => {
+  const textArg = `?text=${text}`;
+  const pageArg = page ? `&page=${page}` : "";
+  return baseURI + `/products/search/${textArg}${pageArg}`;
+};
 
 export const getSellerProductsURI = (
   sellerId: number,

@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import PageWrapperComponent from "app/components/page-wrapper";
 import NoPage from "app/pages/404";
-import { IUser } from "app/types";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { CSSBorder, CSSPadding } from "app/styles/constants";
 import AdminCellComponent from "./components/admin-cell";
@@ -42,12 +41,14 @@ export const AdminPage = () => {
       <Box padding={CSSPadding.Decent} sx={{ overflow: "auto" }}>
         <Table border={CSSBorder.Tiny}>
           <TableHead>
-            <th>id</th>
-            <th>{t("admin_login")}</th>
-            <th>{t("admin_name")}</th>
-            <th>{t("admin_block_state")}</th>
-            <th>{t("admin_admin_state")}</th>
-            <th>{t("admin_delete")}</th>
+            <tr>
+              <th>id</th>
+              <th>{t("admin_login")}</th>
+              <th>{t("admin_name")}</th>
+              <th>{t("admin_block_state")}</th>
+              <th>{t("admin_admin_state")}</th>
+              <th>{t("admin_delete")}</th>
+            </tr>
           </TableHead>
           <TableBody>
             {users.map((user: User) => (

@@ -25,13 +25,12 @@ const options = ["Принят", "Обрабатывается", "В пути", 
 
 export const OrderListComponent = () => {
   const { data } = useAppSelector((state) => state.orders);
-  // const {} = useAppSelector(state => state.a)
   const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     orderWSC.connect(process.env.REACT_APP_WS_SERVER!, "78");
-    orderWSC.emit(WSOrderEvents.FindAllOrders);
+    orderWSC.emit(WSOrderEvents.FindAllOrders, page);
     return () => orderWSC.close();
   }, [page, dispatch]);
 

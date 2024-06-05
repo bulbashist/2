@@ -11,7 +11,7 @@ export const protectedPaths: Path[] = [
     url: "/admin",
   },
   {
-    title: "header_nav_compositions",
+    title: "header_nav_orders",
     url: "/orders",
   },
 ];

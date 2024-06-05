@@ -8,6 +8,7 @@ export type ChangeUserDTO = DeepPartial<Omit<User, "id">> | { roleId: number };
 
 export enum UserRoleEnum {
   USER = 1,
-  ADMIN = 2,
-  BLOCKED = 3,
+  SELLER = 2,
+  ADMIN = 3,
+  BLOCKED = 4,
 }

@@ -15,8 +15,9 @@ import defImg from "app/assets/default.webp";
 import { CSSGap, CSSPadding, FontWeight } from "app/styles/constants";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
-import { ReviewsOutlined } from "@mui/icons-material";
+import ReviewsOutlined from "@mui/icons-material/ReviewsOutlined";
 import styles from "app/styles/animations.module.css";
+import { t } from "i18next";
 
 export const CatalogComponent = () => {
   const { category, filter } = useAppSelector((state) => state.main);
@@ -27,13 +28,15 @@ export const CatalogComponent = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    setError(false);
+    setLoading(true);
     const URI = getCategoryProductsURI(category, filter, page);
 
     axios
       .get(URI)
       .then((resp) => setProducts(resp.data))
       .catch(() => setError(true))
-      .finally(() => setLoading(false));
+      .finally(() => setTimeout(() => setLoading(false), 500));
   }, [category, page, filter]);
 
   if (loading) {
@@ -73,7 +76,7 @@ export const CatalogComponent = () => {
           </Box>
         ) : null}
         {products.map((product) => (
-          <Grid item xs={3} key={product.id}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={product.id} height={350}>
             <Card raised>
               <Box padding={CSSPadding.Small}>
                 <Grid container gap={CSSGap.Tiny}>
@@ -115,7 +118,9 @@ export const CatalogComponent = () => {
                   <Grid item xs={12}>
                     <Stack direction="row" gap={CSSGap.Tiny}>
                       <ReviewsOutlined />
-                      <Typography>{product.totalComms} отзывов</Typography>
+                      <Typography>
+                        {product.totalComms} {t("product_list_reviews")}
+                      </Typography>
                     </Stack>
                   </Grid>
                 </Grid>

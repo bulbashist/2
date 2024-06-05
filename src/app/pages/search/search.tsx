@@ -8,9 +8,13 @@ export const SearchPage = () => {
     <PageWrapperComponent>
       <Stack
         direction="column"
-        alignItems="flex-start"
+        justifyContent="center"
+        alignItems="center"
         padding={CSSPadding.Average}
         gap={CSSGap.Small}
+        minHeight={500}
+        height="100%"
+        position="relative"
       >
         <ProductListComponent />
       </Stack>
