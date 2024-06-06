@@ -47,8 +47,8 @@
     "review_card_composition": "Произведение",
     "review_card_comments": "Комментарии",
 
-    "review_create_form_title": "Создание отзыва",
-    "review_update_form_title": "Редактирование отзыва",
+    "create_product_form_title": "Форма добавления товара",
+    "update_product_form_title": "Форма изменения товара",
     "review_form_title_ph": "Введите название",
     "review_form_text_ph": "Напишите свой текст",
     "review_form_img_preview_ph": "Загрузите сюда превью",
@@ -63,8 +63,6 @@
     "mark_composition": "Оцените произведение",
 
     "no_reviews": "Не найдено отзывов, соответствующих критериям",
-
-    "create_product_form_title": "Форма добавления товара",
 
     "seller_email": "Почта",
     "seller_code": "Код верификации",

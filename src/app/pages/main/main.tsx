@@ -21,7 +21,12 @@ export const MainPage = () => {
             <AsideBarComponent />
           </Grid>
           <Grid item xs={9}>
-            <Stack direction="column" gap={CSSGap.Small} height="100%">
+            <Stack
+              direction="column"
+              gap={CSSGap.Small}
+              minHeight={500}
+              height="100%"
+            >
               <FilterPanelComponent />
               <CatalogComponent />
             </Stack>

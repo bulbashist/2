@@ -21,7 +21,11 @@ import { setEditingState } from "../../store/slice";
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import { Category, Manufacturer, Product } from "app/types";
 import axios from "axios";
-import { categoriesURI, manufacturersURI } from "app/constants/urls";
+import {
+  categoriesURI,
+  manufacturersURI,
+  productsURI,
+} from "app/constants/urls";
 
 type FormData = Partial<Product>;
 
@@ -36,11 +40,9 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
   const [images, setImages] = useState<string[]>([]);
 
   const { control, handleSubmit, register } = useForm<FormData>();
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const imgServer = useRef(new ImageServer());
-
   const [categories, setCategories] = useState<Category[]>([]);
   const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
 
@@ -64,7 +66,12 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
   };
 
   const formHandler = (data: FormData) => {
-    // dispatch(changeReview({ id: review.id, ...data, tags }));
+    const body = {
+      ...data,
+      photos: images.map((img) => ({ url: img })),
+    };
+
+    axios.patch(productsURI + product.id, body, { withCredentials: true });
     close();
   };
 
@@ -74,7 +81,7 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
         <Close onClick={close} />
       </Box>
       <DialogTitle textAlign="center">
-        {t("create_product_form_title")}
+        {t("update_product_form_title")}
       </DialogTitle>
       <Stack direction="column" gap={CSSGap.Average} padding={CSSPadding.Small}>
         <form onSubmit={handleSubmit(formHandler)}>
@@ -86,12 +93,6 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
               sx={{ width: "300px", alignSelf: "center" }}
             />
             <Grid container gap={CSSGap.Small}>
-              <Grid item xs={8} md={5}>
-                <FileUploader
-                  // handleChange={handleChange}
-                  label={t("review_form_img_preview_ph")}
-                />
-              </Grid>
               <Grid item xs={8} md={5}>
                 <FileUploader
                   handleChange={loadToGallery}
@@ -133,13 +134,31 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
               placeholder={t("review_form_text_ph")}
               {...register("description")}
             />
-            <Input
-              defaultValue={product.price}
-              placeholder={t("price")}
-              required
-              {...register("price", { valueAsNumber: true })}
-              sx={{ width: "300px", alignSelf: "center" }}
-            />
+            <Stack direction="row" gap={CSSGap.Small}>
+              <Input
+                defaultValue={product.material}
+                placeholder={t("material")}
+                {...register("material")}
+                fullWidth
+              />
+              <Input
+                defaultValue={product.price}
+                placeholder={t("price")}
+                required
+                fullWidth
+                {...register("price", { valueAsNumber: true })}
+              />
+              <Input
+                defaultValue={product.discount}
+                placeholder={t("discount")}
+                fullWidth
+                {...register("discount", {
+                  valueAsNumber: true,
+                  min: 0,
+                  max: 90,
+                })}
+              />
+            </Stack>
             <Button type="submit" sx={{ alignSelf: "end" }}>
               {t("word_submit")}
             </Button>
@@ -156,9 +175,10 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
                     sx={{ width: 300 }}
                     options={categories}
                     getOptionLabel={(value) => value.name}
-                    // placeholder="Категория"
-                    //@ts-ignore
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => (
+                      //@ts-ignore
+                      <TextField {...params} label="Категория" />
+                    )}
                   />
                 )}
               />
@@ -173,13 +193,29 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
                     sx={{ width: 300 }}
                     options={manufacturers}
                     getOptionLabel={(value) => value.name}
-                    // placeholder="Производитель"
-                    //@ts-ignore
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => (
+                      //@ts-ignore
+                      <TextField {...params} label="Производитель" />
+                    )}
                   />
                 )}
               />
             </Stack>
+          </Stack>
+          <Stack direction="row" gap={CSSGap.Average} alignItems="center">
+            <Stack direction="row" alignItems="center">
+              <p>Нет в наличии:</p>
+              <input
+                defaultChecked={product.outOfStock}
+                type="checkbox"
+                {...register("outOfStock")}
+              />
+            </Stack>
+            <Input
+              type="number"
+              placeholder="Приоритет"
+              {...register("priority", { min: 0, max: 100 })}
+            />
           </Stack>
         </form>
         <GalleryComponent images={images} />

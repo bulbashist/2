@@ -36,8 +36,6 @@ type Props = {
 
 export const CreateProductForm = ({ open, closeModal }: Props) => {
   const theme = useAppSelector((state) => state.core.theme);
-
-  const [previewImg, setPreviewImg] = useState("");
   const [images, setImages] = useState<string[]>([]);
 
   const { control, handleSubmit, register } = useForm<FormData>();
@@ -47,8 +45,7 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
 
   const handleChange = async (f: File) => {
     const url = await imgServer.current.uploadImage(f);
-    setPreviewImg(url);
-    setImages((ps) => [...ps, url]);
+    setImages((ps) => [url, ...ps]);
   };
 
   const loadToGallery = async (f: File) => {
@@ -57,7 +54,11 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
   };
 
   const formHandler = (data: FormData) => {
-    axios.post(productsURI, data, { withCredentials: true }).catch(console.log);
+    const body = {
+      ...data,
+      photos: images.map((img) => ({ url: img })),
+    };
+    axios.post(productsURI, body, { withCredentials: true }).catch(console.log);
     closeModal();
   };
 
@@ -77,15 +78,25 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
   }, []);
 
   return (
-    <Dialog open={open} maxWidth={false}>
+    <Dialog open={open} maxWidth="xl">
       <Box position="absolute" top={8} right={8}>
         <Close onClick={closeModal} />
       </Box>
       <DialogTitle textAlign="center">
         {t("create_product_form_title")}
       </DialogTitle>
-      <Stack direction="column" gap={CSSGap.Average} padding={CSSPadding.Small}>
-        <form onSubmit={handleSubmit(formHandler)}>
+      <Stack
+        direction="column"
+        gap={CSSGap.Average}
+        padding={CSSPadding.Small}
+        width={900}
+      >
+        <form
+          onSubmit={handleSubmit(formHandler)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") return false;
+          }}
+        >
           <Stack direction="column" gap={CSSGap.Small}>
             <Input
               placeholder={t("review_form_title_ph")}
@@ -112,19 +123,19 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
                 type="number"
                 required
                 {...register("width", { valueAsNumber: true })}
-                sx={{ width: "300px", alignSelf: "center" }}
+                fullWidth
               />
               <Input
                 placeholder={t("breadth")}
                 required
                 {...register("breadth", { valueAsNumber: true })}
-                sx={{ width: "300px", alignSelf: "center" }}
+                fullWidth
               />
               <Input
                 placeholder={t("height")}
                 required
                 {...register("height", { valueAsNumber: true })}
-                sx={{ width: "300px", alignSelf: "center" }}
+                fullWidth
               />
             </Stack>
             <textarea
@@ -136,12 +147,24 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
               placeholder={t("review_form_text_ph")}
               {...register("description")}
             />
-            <Input
-              placeholder={t("price")}
-              required
-              {...register("price", { valueAsNumber: true })}
-              sx={{ width: "300px", alignSelf: "center" }}
-            />
+            <Stack direction="row" gap={CSSGap.Small}>
+              <Input
+                placeholder={t("price")}
+                required
+                {...register("price", { valueAsNumber: true })}
+                fullWidth
+              />
+              <Input
+                placeholder={t("material")}
+                fullWidth
+                {...register("material")}
+              />
+              <Input
+                placeholder={t("discount")}
+                fullWidth
+                {...register("discount", { min: 0, max: 90 })}
+              />
+            </Stack>
             <Button type="submit" sx={{ alignSelf: "end" }}>
               {t("word_submit")}
             </Button>
@@ -157,9 +180,10 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
                     sx={{ width: 300 }}
                     options={categories}
                     getOptionLabel={(value) => value.name}
-                    // placeholder="Категория"
-                    //@ts-ignore
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => (
+                      //@ts-ignore
+                      <TextField {...params} label="Категория" />
+                    )}
                   />
                 )}
               />
@@ -168,15 +192,14 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Autocomplete
-                    onChange={(e, selected) => {
-                      onChange(selected);
-                    }}
+                    onChange={(e, selected) => onChange(selected)}
                     sx={{ width: 300 }}
                     options={manufacturers}
                     getOptionLabel={(value) => value.name}
-                    // placeholder="Производитель"
-                    //@ts-ignore
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => (
+                      //@ts-ignore
+                      <TextField {...params} label="Производитель" />
+                    )}
                   />
                 )}
               />

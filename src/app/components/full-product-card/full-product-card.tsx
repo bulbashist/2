@@ -98,7 +98,7 @@ export const FullProductCardComponent = ({ product }: Props) => {
           <Grid item xs={6}>
             <Box textAlign="left">
               <Stack direction="row" justifyContent="space-between">
-                <Stack direction="column">
+                <Stack direction="column" width="65%">
                   <Typography variant="h3" fontWeight={FontWeight.Normal}>
                     {product.name}
                   </Typography>

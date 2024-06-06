@@ -1,4 +1,3 @@
-import { Box, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import PageWrapperComponent from "app/components/page-wrapper";
 import { officesURI } from "app/constants/urls";

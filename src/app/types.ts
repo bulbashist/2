@@ -7,7 +7,7 @@ export enum UserRights {
 }
 
 export type Photo = {
-  id: number;
+  id?: number;
   url: string;
 };
 
@@ -32,14 +32,15 @@ export type Product = {
   // count: number;  diploma??
   seller: User;
   manufacturer: Manufacturer;
-  category: Category;
-  photos: Photo[];
-  comments: Comment[];
-  avgRating?: number;
-  totalComms?: number;
-  material: string;
-  outOfStock: boolean;
+  category: Category; //
+  photos: Photo[]; //
+  comments: Comment[]; //
+  avgRating?: number; //
+  totalComms?: number; //
+  material: string; //
+  outOfStock: boolean; //
   discount: number;
+  priority?: number;
 };
 
 export type Transaction = {

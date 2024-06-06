@@ -47,8 +47,8 @@
     "review_card_composition": "Composition",
     "review_card_comments": "Comments",
 
-    "review_create_form_title": "Create review",
-    "review_update_form_title": "Update review",
+    "create_product_form_title": "Publish new product",
+    "update_product_form_title": "Update product",
     "review_form_title_ph": "Enter your title",
     "review_form_text_ph": "Write your review text",
     "review_form_img_preview_ph": "Upload a preview image here",
@@ -63,8 +63,6 @@
     "mark_composition": "Rate this composition",
 
     "no_reviews": "No reviews are matched this criteria, try another one",
-
-    "create_product_form_title": "Publish new product",
 
     "seller_email": "Email",
     "seller_code": "Verification code",
