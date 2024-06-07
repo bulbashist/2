@@ -19,9 +19,13 @@ export const CommentInputComponent = ({ userId, pid }: Props) => {
 
   const submitComment = () => {
     connection.addComment({
-      product: pid,
+      product: {
+        id: pid,
+      },
       text,
-      user: userId,
+      user: {
+        id: userId,
+      },
       rating,
     });
   };

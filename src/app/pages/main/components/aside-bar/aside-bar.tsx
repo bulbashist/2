@@ -5,10 +5,12 @@ import { Category } from "app/types";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { changeCategory } from "../../store/slice";
+import { useTranslation } from "react-i18next";
 
 export const AsideBarComponent = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const category = useAppSelector((state) => state.main.category);
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export const AsideBarComponent = () => {
       <Stack direction="column" alignItems="flex-start">
         <Button color="inherit" onClick={() => btnHandler(null)}>
           <Typography textAlign="left" textTransform="none">
-            Все категории
+            {t("Все категории")}
           </Typography>
         </Button>
         {categories.map((cat) => (
@@ -38,7 +40,7 @@ export const AsideBarComponent = () => {
             onClick={() => btnHandler(cat.name)}
           >
             <Typography textAlign="left" textTransform="none">
-              {cat.name}
+              {t(cat.name)}
             </Typography>
           </Button>
         ))}

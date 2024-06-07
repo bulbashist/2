@@ -22,7 +22,9 @@ const slice = createSlice({
       state.data = action.payload;
     },
     addOrder: (state, action: PayloadAction<Order>) => {
-      state.data = [action.payload, ...state.data!];
+      if (state.data) {
+        state.data = [action.payload, ...state.data];
+      }
     },
     changeOrderStatus: (
       state,

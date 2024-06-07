@@ -63,22 +63,14 @@ export type UserRole = {
   rights: number;
 };
 
-export type Paycard = {
-  id: number;
-  cardNumber: string;
-  validThrough: string;
-  cvv: number;
-  credentials: string;
-};
-
 export type User = {
   id: number;
   login: string;
   password: string;
   name?: string;
   role: UserRole;
-  cards: Paycard[];
   orders?: Order[];
+  isBlocked: boolean;
 };
 
 export type Comment = {

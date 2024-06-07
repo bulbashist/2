@@ -5,6 +5,7 @@ import { User } from "app/types";
 import { UserRoleEnum } from "../../types";
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 type Props = {
   user: User;
@@ -13,7 +14,8 @@ type Props = {
 export const BlockCellComponent = ({ user }: Props) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const isBlocked = user.role.id === UserRoleEnum.BLOCKED;
+
+  const [val, setVal] = useState(+user.isBlocked);
   const isAdmin = user.role.id === UserRoleEnum.ADMIN;
 
   if (isAdmin) {
@@ -25,15 +27,14 @@ export const BlockCellComponent = ({ user }: Props) => {
       sx={{ width: "50px" }}
       min={0}
       max={1}
-      value={Number(isBlocked)}
+      value={val}
       onChange={(_, value) => {
-        const roleId = value ? UserRoleEnum.BLOCKED : UserRoleEnum.USER;
-
+        setVal(+value);
         dispatch(
           changeUser({
             id: user.id,
             dto: {
-              role: { id: roleId },
+              isBlocked: Boolean(val),
             },
           })
         );

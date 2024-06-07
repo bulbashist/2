@@ -10,6 +10,8 @@ import PageWrapperComponent from "app/components/page-wrapper";
 import {
   Autocomplete,
   Box,
+  Button,
+  Dialog,
   Grid,
   Stack,
   TextField,
@@ -17,23 +19,26 @@ import {
 } from "@mui/material";
 import { CSSGap, CSSMargin, CSSPadding } from "app/styles/constants";
 import axios from "axios";
-import { officesURI, paycardsURI } from "app/constants/urls";
-import { Office, Paycard } from "app/types";
+import { officesURI } from "app/constants/urls";
+import { Office } from "app/types";
 import { initiatePayment, printCheck } from "app/services/payment";
 import { orderWSC } from "../orders/services/order-connection";
 import { WSOrderEvents } from "../product/components/comment-block/services/types";
+import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
+import { Close } from "@mui/icons-material";
 
 const CartPage = () => {
+  const [params] = useSearchParams();
   const products = useAppSelector((state) => state.cart);
   const userId = useAppSelector((state) => state.core.id);
   const [offices, setOffices] = useState<Office[]>([]);
-  const [paycards, setPaycards] = useState<Paycard[]>([]);
+
+  const [success, setSuccess] = useState(false);
 
   const [selectedOfficeId, setSelectedOfficeId] = useState<number | null>(null);
-  const [selectedPaycardId, setSelectedPaycardId] = useState<number | null>(
-    null
-  );
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -55,52 +60,42 @@ const CartPage = () => {
       .get(officesURI)
       .then((resp) => setOffices(resp.data))
       .catch(console.log);
-
-    if (userId) {
-      axios
-        .get(paycardsURI + userId)
-        .then((resp) => setPaycards(resp.data))
-        .catch(console.log);
-    }
   }, [userId]);
+
+  useEffect(() => {
+    setSuccess(params.get("success") === "true");
+
+    if (success) {
+      const order = JSON.parse(localStorage.getItem("temp-order")!);
+      orderWSC.connect(process.env.REACT_APP_WS_SERVER!, "76");
+      orderWSC.emit(WSOrderEvents.CreateOrder, order);
+      dispatch(resetCart());
+      localStorage.removeItem("temp-order");
+    }
+  }, [params, dispatch, success]);
 
   const paymentHandler = async () => {
     if (!userId) return;
+    if (products.length === 0) return;
 
-    const response = await initiatePayment(getTotal());
-    // if (response && products.length !== 0) {
-    //   await printCheck(products);
+    // await printCheck(products);
 
-    //   if (selectedOfficeId) {
-    //     const arg = {
-    //       products,
-    //       office: { id: selectedOfficeId },
-    //       user: { id: userId },
-    //       status: { id: 1 },
-    //     };
+    const arg = {
+      products,
+      office: { id: selectedOfficeId },
+      user: { id: userId },
+      status: { id: 1 },
+    };
 
-    //     orderWSC.connect(process.env.REACT_APP_WS_SERVER!, "76");
-    //     orderWSC.emit(WSOrderEvents.CreateOrder, arg);
-    //     dispatch(resetCart());
-    //   }
-    //   navigate("/");
-    // }
+    localStorage.setItem("temp-order", JSON.stringify(arg));
+    initiatePayment(getTotal());
   };
-
-  // return (
-  //   <Elements stripe={stripe} options={opts}>
-  //     <form>
-  //       <PaymentElement />
-  //       <button>ff</button>
-  //     </form>
-  //   </Elements>
-  // );
 
   if (!userId) {
     return (
       <PageWrapperComponent>
         <Box padding={CSSPadding.Large}>
-          <Typography>Зарегистрируйтесь, чтобы начать покупки</Typography>
+          <Typography>{t("cart_unregistred")}</Typography>
         </Box>
       </PageWrapperComponent>
     );
@@ -108,6 +103,19 @@ const CartPage = () => {
 
   return (
     <PageWrapperComponent>
+      {success ? (
+        <Dialog open>
+          <Box position="relative" padding={CSSPadding.Decent}>
+            <Box position="absolute" top={8} right={8}>
+              <Close onClick={() => navigate(`/users/${userId}`)} />
+            </Box>
+
+            <Typography color="green">Заказ успешно оформлен</Typography>
+          </Box>
+        </Dialog>
+      ) : (
+        <></>
+      )}
       <Box padding={CSSPadding.Decent} height="100%">
         <Typography
           textAlign="left"
@@ -138,34 +146,18 @@ const CartPage = () => {
                   label: office.location,
                   value: office.id,
                 }))}
-                // placeholder="Адрес доставки"
                 onChange={(e, selected) => {
                   setSelectedOfficeId(selected?.value ?? null);
                 }}
-                //@ts-ignore
-                renderInput={(params) => <TextField {...params} />}
+                renderInput={(params) => (
+                  //@ts-ignore
+                  <TextField {...params} label="Адрес доставки" />
+                )}
               />
-              {/* <Autocomplete
-                sx={{ width: 300 }}
-                options={paycards.map((paycard) => ({
-                  label: paycard.cardNumber,
-                  value: paycard.id,
-                }))}
-                // placeholder="Карта"
-                onChange={(e, selected) => {
-                  setSelectedPaycardId(selected?.value ?? null);
-                }}
-                //@ts-ignore
-                renderInput={(params) => <TextField {...params} />}
-              /> */}
               <Stack direction="row" alignItems="center" gap={CSSGap.Small}>
                 <Typography>Всего: {getTotal()}</Typography>
                 <PaymentButton
-                  disabled={
-                    !selectedOfficeId ||
-                    // !selectedPaycardId ||
-                    products.length === 0
-                  }
+                  disabled={!selectedOfficeId || products.length === 0}
                   onClick={() => paymentHandler()}
                 >
                   Оплатить

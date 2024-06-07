@@ -4,8 +4,12 @@ export enum WSEvents {
 }
 
 export type CreateCommentDto = {
-  user: number;
-  product: number;
+  user: {
+    id: number;
+  };
+  product: {
+    id: number;
+  };
   text: string;
   rating: number;
 };

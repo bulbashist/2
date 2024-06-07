@@ -70,6 +70,22 @@
     "seller_name": "Name",
     "seller_phone": "Phone",
     "seller_code_btn": "Send code",
-    "seller_register_btn": "Sign in"
+    "seller_register_btn": "Sign in",
+
+    "Все категории": "All categories",
+    "Садовая мебель": "Garden furniture",
+    "Компьютерная и офисная мебель": "Computer and office furniture",
+    "Мягкая мебель": "Soft furniture",
+    "Столы и стулья": "Tables and chairs",
+    "Мебель для хранения": "Furniture for storaging",
+    "Мебель для спальни и комплектующие": "Bedroom furniture and accessories",
+    "Мебель для кухни": "Kitchen furniture",
+    "Мебель для ванной": "Bath furniture",
+    "Бескаркасная мебель": "Frameless furniture",
+    "Детская мебель": "Children furniture",
+    "Мебель для бизнеса": "Furniture for business",
+    "Сейфы и архивные шкафы": "Safes and archival cabinets",
+
+    "cart_unregistred": "Register to start shopping"
   }
 }

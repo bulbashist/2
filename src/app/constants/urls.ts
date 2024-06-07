@@ -1,6 +1,7 @@
 const baseURI = process.env.REACT_APP_SERVER;
 
 export const commentsURL = baseURI + "/api/comments/";
+export const paymentURI = baseURI + "/payment";
 export const imgUploadURL = process.env.REACT_APP_UPLOAD_IMAGE_URL!;
 export const googleUrl = baseURI + "/auth/login-google";
 export const signUpURL = baseURI + "/auth/signup";
@@ -13,7 +14,6 @@ export const usersURL = baseURI + "/users/";
 export const productsURI = baseURI + "/products/";
 export const ordersURI = baseURI + "/orders/";
 export const officesURI = baseURI + "/offices/";
-export const paycardsURI = baseURI + "/paycards/";
 export const categoriesURI = baseURI + "/product-categories/";
 export const manufacturersURI = baseURI + "/product-manufacturers/";
 

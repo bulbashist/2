@@ -30,7 +30,6 @@ const changeUser = createAsyncThunk(
     const response = await axios.patch(usersURL + id, dto, {
       withCredentials: true,
     });
-    console.log(response.data);
     return response.data;
   }
 );
