@@ -20,6 +20,7 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { orderWSC } from "../../services/order-connection";
 import { WSOrderEvents } from "app/pages/product/components/comment-block/services/types";
 import { Order } from "../../types";
+import { useTranslation } from "react-i18next";
 
 const options = ["Принят", "Обрабатывается", "В пути", "Доставлен", "Получен"];
 
@@ -27,6 +28,7 @@ export const OrderListComponent = () => {
   const { data } = useAppSelector((state) => state.orders);
   const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     orderWSC.connect(process.env.REACT_APP_WS_SERVER!, "78");
@@ -115,9 +117,9 @@ export const OrderListComponent = () => {
                         changeStatusHandler(order.id, +e.target.value)
                       }
                     >
-                      {options.map((opt, i) => (
-                        <MenuItem key={i} value={i}>
-                          {opt}
+                      {[1, 2, 3, 4, 5].map((opt) => (
+                        <MenuItem key={opt} value={opt}>
+                          {t(`i18_order_status_${opt}`)}
                         </MenuItem>
                       ))}
                     </Select>

@@ -4,14 +4,15 @@ import PageWrapperComponent from "app/components/page-wrapper";
 import NoPage from "app/pages/404";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import UpdateProductForm from "./components/product-form";
-import { getProduct, setEditingState } from "./store/slice";
+import { getProduct, resetError, setEditingState } from "./store/slice";
 import styles from "app/styles/animations.module.css";
 import CommentBlockComponent from "./components/comment-block";
 import FullProductCardComponent from "app/components/full-product-card";
+import DialogFailure from "app/components/utility/dialog-failure";
 
 export const ProductPage = () => {
   const dispatch = useAppDispatch();
-  const { isBeingEdited, data, loading } = useAppSelector(
+  const { isBeingEdited, data, loading, err, errMsg } = useAppSelector(
     (state) => state.product
   );
   const { id } = useParams();
@@ -27,6 +28,13 @@ export const ProductPage = () => {
 
   return (
     <PageWrapperComponent>
+      <DialogFailure
+        isOpen={err}
+        close={() => {
+          dispatch(resetError());
+        }}
+        msg={errMsg}
+      />
       <UpdateProductForm
         isOpen={isBeingEdited}
         close={() => dispatch(setEditingState(false))}

@@ -27,6 +27,7 @@ import {
   RemoveOutlined,
 } from "@mui/icons-material";
 import { removeProduct, setEditingState } from "app/pages/product/store/slice";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   product: Product;
@@ -39,6 +40,7 @@ export const FullProductCardComponent = ({ product }: Props) => {
   );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const getTotal = (product: Product) => {
     return (product.price * (1 - product.discount / 100)).toFixed(2);
@@ -104,11 +106,22 @@ export const FullProductCardComponent = ({ product }: Props) => {
                   </Typography>
                   <List>
                     <p>{product.description}</p>
-                    <p>Длина, см: {product.width}</p>
-                    <p>Ширина, см: {product.breadth}</p>
-                    <p>Высота, см: {product.height}</p>
-                    <p>Тип: {product.category.name}</p>
-                    <p>Производитель: {product.manufacturer.name}</p>
+                    <p>
+                      {t("product_width")}: {product.width}
+                    </p>
+                    <p>
+                      {t("product_breadth")}: {product.breadth}
+                    </p>
+                    <p>
+                      {t("product_height")}: {product.height}
+                    </p>
+                    <p>
+                      {t("product_category")}: {product.category.name} (
+                      {product.material})
+                    </p>
+                    <p>
+                      {t("product_manufacturer")}: {product.manufacturer.name}
+                    </p>
                   </List>
                   <Card variant="outlined">
                     <Box padding={CSSPadding.Small}>
@@ -129,7 +142,7 @@ export const FullProductCardComponent = ({ product }: Props) => {
                       {cartProduct ? (
                         <Stack direction="row" alignItems="center">
                           <Button variant="contained" color="success">
-                            <Link to="/cart">В корзине</Link>
+                            <Link to="/cart">{t("product_in_cart")}</Link>
                           </Button>
                           <Button onClick={removeOne}>
                             <RemoveOutlined />
@@ -148,7 +161,7 @@ export const FullProductCardComponent = ({ product }: Props) => {
                             dispatch(addToCart({ product, count: 1 }))
                           }
                         >
-                          Добавить в корзину
+                          {t("product_add_to_cart")}
                         </Button>
                       )}
                     </Box>
@@ -163,7 +176,7 @@ export const FullProductCardComponent = ({ product }: Props) => {
                       </Typography>
                       <Typography variant="subtitle2">
                         <Link to={`/users/${product.seller.id}`}>
-                          Перейти к продавцу
+                          {t("product_forward_seller")}
                         </Link>
                       </Typography>
                     </List>
@@ -173,7 +186,7 @@ export const FullProductCardComponent = ({ product }: Props) => {
             </Box>
           </Grid>
           <Grid item xs={12} marginTop={CSSMargin.Decent}>
-            <Typography textAlign="left">Галерея:</Typography>
+            <Typography textAlign="left">{t("product_gallery")}:</Typography>
             {product.photos.length !== 0 ? (
               <List>
                 {product.photos.map((photo) => (
@@ -192,7 +205,7 @@ export const FullProductCardComponent = ({ product }: Props) => {
               </List>
             ) : (
               <Typography textAlign="left" marginTop={CSSMargin.Small}>
-                У товара пока нету фотографий
+                {t("product_no_img")}
               </Typography>
             )}
           </Grid>

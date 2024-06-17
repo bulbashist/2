@@ -8,12 +8,16 @@ type State = {
   data: null | Product;
   isBeingEdited: boolean;
   loading: boolean;
+  err: boolean;
+  errMsg: string;
 };
 
 const initialState: State = {
   data: null,
   isBeingEdited: false,
   loading: false,
+  err: false,
+  errMsg: "",
 };
 
 const removeProduct = createAsyncThunk("remove-product", (id: number) => {
@@ -28,12 +32,21 @@ const slice = createSlice({
       state.isBeingEdited = action.payload;
     },
     addComment: (state, action) => {
-      state.data!.comments = [action.payload, ...state.data!.comments];
+      if (action.payload.err) {
+        state.err = true;
+        state.errMsg = action.payload.msg;
+      } else {
+        state.data!.comments = [action.payload, ...state.data!.comments];
+      }
     },
     deleteComment: (state, action) => {
       state.data!.comments = state.data!.comments.filter(
         (comment) => comment.id !== action.payload
       );
+    },
+    resetError: (state) => {
+      state.err = false;
+      state.errMsg = "";
     },
   },
   extraReducers: (builder) =>
@@ -55,20 +68,9 @@ const slice = createSlice({
       .addCase(removeProduct.pending, (state, _) => {
         state.loading = true;
       }),
-  // .addCase(
-  //   changeRating.fulfilled,
-  //   (state, action: PayloadAction<number>) => {
-  //     state.product!.userRating = action.payload;
-  //   }
-  // )
-  // .addCase(
-  //   changeLike.fulfilled,
-  //   (state, action: PayloadAction<boolean>) => {
-  //     state.review!.isLiked = action.payload;
-  //   }
-  // ),
 });
 
 export { getProduct, removeProduct };
-export const { setEditingState, addComment, deleteComment } = slice.actions;
+export const { setEditingState, addComment, deleteComment, resetError } =
+  slice.actions;
 export default slice.reducer;

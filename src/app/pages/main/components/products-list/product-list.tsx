@@ -17,10 +17,11 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
 import ReviewsOutlined from "@mui/icons-material/ReviewsOutlined";
 import styles from "app/styles/animations.module.css";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 export const CatalogComponent = () => {
   const { category, filter } = useAppSelector((state) => state.main);
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -51,9 +52,7 @@ export const CatalogComponent = () => {
     return (
       <Box position="relative" flexGrow={1} height="100%">
         <Stack direction="column" justifyContent="center" height="100%">
-          <Typography variant="h4">
-            Произошла ошибка, попробуйте позже
-          </Typography>
+          <Typography variant="h4">{t("err_try_later")}</Typography>
         </Stack>
       </Box>
     );
@@ -71,7 +70,7 @@ export const CatalogComponent = () => {
         {products.length === 0 ? (
           <Box position="relative" flexGrow={1} height="100%">
             <Stack direction="column" justifyContent="center" height="100%">
-              <Typography variant="h4">Товары не найдены</Typography>
+              <Typography variant="h4">{t("err_goods_not_found")}</Typography>
             </Stack>
           </Box>
         ) : null}

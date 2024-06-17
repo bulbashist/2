@@ -1,13 +1,13 @@
 import { useAppSelector } from "../../../../hooks";
 import { Link } from "react-router-dom";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { Box, Stack, Typography } from "@mui/material";
 import { KeyboardDoubleArrowRight } from "@mui/icons-material";
 
 export const OrdersListComponent = () => {
   const orders = useAppSelector((state) => state.user.data?.orders);
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
   if (!orders) return null;
 
@@ -32,20 +32,20 @@ export const OrdersListComponent = () => {
     },
     {
       field: "status",
-      headerName: "Статус заказа",
+      headerName: t("profile_goods_list_title2"),
       minWidth: 150,
       flex: 1,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
         const { status } = params.row;
-        return <Typography>{status.name}</Typography>;
+        return <Typography>{t(status.name)}</Typography>;
       },
     },
     {
       field: "office",
       headerAlign: "center",
-      headerName: "Адрес доставки",
+      headerName: t("profile_goods_list_title3"),
       minWidth: 150,
       flex: 1,
       align: "center",
@@ -56,7 +56,7 @@ export const OrdersListComponent = () => {
     },
     {
       field: "date",
-      headerName: "Дата",
+      headerName: t("profile_goods_list_title4"),
       headerAlign: "center",
       minWidth: 200,
       flex: 1,

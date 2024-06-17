@@ -53,7 +53,7 @@ export const SignModalComponent = ({ setModal }: Props) => {
         <form onSubmit={handleSubmit(registerUser)}>
           <Stack direction="column" alignItems="center" gap={CSSGap.Small}>
             <Input
-              type="text"
+              type="email"
               placeholder={t("login_popup_email")}
               {...register("login", { required: true })}
             />

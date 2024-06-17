@@ -12,6 +12,10 @@ import styles from "app/styles/animations.module.css";
 import GoodsListComponent from "./components/goods-list";
 import { UserRights } from "app/types";
 import { Box, Button, Dialog, Input, List } from "@mui/material";
+import DialogFailure from "app/components/utility/dialog-failure";
+import axios from "axios";
+import { usersURL } from "app/constants/urls";
+import { useTranslation } from "react-i18next";
 
 export const UserPage = () => {
   const { data, loading } = useAppSelector((state) => state.user);
@@ -20,8 +24,22 @@ export const UserPage = () => {
   const dispatch = useAppDispatch();
   const [nameDialog, setNameDialog] = useState(false);
   const [newName, setNewName] = useState("");
+  const [nameErr, setNameErr] = useState(false);
+  const { t } = useTranslation();
 
   const shouldBeVisible = () => id === data?.id || rights >= UserRights.ADMIN;
+
+  const changeName = () => {
+    axios
+      .patch(usersURL + userId, { name: newName }, { withCredentials: true })
+      .then(
+        () => {
+          dispatch(changeUserName(newName));
+          setNameDialog(false);
+        },
+        () => setNameErr(true)
+      );
+  };
 
   useEffect(() => {
     dispatch(getUserData(+userId!));
@@ -38,21 +56,19 @@ export const UserPage = () => {
           margin={CSSMargin.Average}
           onClick={(e) => e.stopPropagation()}
         >
+          <DialogFailure
+            isOpen={nameErr}
+            close={() => setNameErr(false)}
+            msg="err_name_change"
+          />
           <Stack direction="column" gap={CSSGap.Small}>
-            <Typography variant="h5">Введите новое имя</Typography>
+            <Typography variant="h5">{t("profile_new_name")}</Typography>
             <Input
               fullWidth
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
             />
-            <Button
-              onClick={() => {
-                dispatch(changeUserName({ id: data.id, name: newName }));
-                setNameDialog(false);
-              }}
-            >
-              Подтвердить
-            </Button>
+            <Button onClick={changeName}>{t("profile_name_confirm")}</Button>
           </Stack>
         </Box>
       </Dialog>
@@ -65,7 +81,7 @@ export const UserPage = () => {
           {data.id === id ? (
             <Button>
               <Link to="/stats">
-                <Typography>Просмотреть статистику</Typography>
+                <Typography>{t("profile_to_stats")}</Typography>
               </Link>
             </Button>
           ) : null}
@@ -75,7 +91,9 @@ export const UserPage = () => {
             </Typography>
             {data.id === id ? (
               <Button onClick={() => setNameDialog(true)}>
-                <Typography textTransform="none">Сменить имя</Typography>
+                <Typography textTransform="none">
+                  {t("profile_change_name")}
+                </Typography>
               </Button>
             ) : (
               <></>

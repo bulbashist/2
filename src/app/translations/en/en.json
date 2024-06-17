@@ -49,12 +49,17 @@
 
     "create_product_form_title": "Publish new product",
     "update_product_form_title": "Update product",
-    "review_form_title_ph": "Enter your title",
-    "review_form_text_ph": "Write your review text",
-    "review_form_img_preview_ph": "Upload a preview image here",
-    "review_form_img_markup_ph": "Upload an image here and get a markup annotation",
-    "review_form_gallery": "Gallery",
-    "review_form_no_img": "No images yet",
+    "form_product_title": "Enter product name",
+    "form_product_description": "Describe this product",
+    "form_product_price": "Price",
+    "form_product_material": "Material",
+    "form_product_discount": "Current discount, %",
+    "form_product_category": "Category",
+    "form_product_manufacturer": "Manufacturer",
+    "form_product_outofstock": "Out of stock:",
+    "form_product_priority": "Priority",
+    "form_img_preview": "Upload a preview image here",
+    "form_img_markup": "Upload an image here and get a markup annotation",
 
     "composition_card_reviews": "Other reviews of this composition",
     "composition_card_create_review": "Write your review",
@@ -86,6 +91,51 @@
     "Мебель для бизнеса": "Furniture for business",
     "Сейфы и архивные шкафы": "Safes and archival cabinets",
 
-    "cart_unregistred": "Register to start shopping"
+    "cart_unregistred": "Register to start shopping",
+    "cart_cart": "Cart",
+    "cart_total": "Total:",
+    "cart_goods": "Goods:",
+    "cart_payment_btn": "Order",
+
+    "i18_order_status_1": "Accepted",
+    "i18_order_status_2": "Proceeded",
+    "i18_order_status_3": "On the way",
+    "i18_order_status_4": "Delivered",
+    "i18_order_status_5": "Taken",
+
+    "err_try_later": "An error occured, try again later",
+    "err_goods_not_found": "Goods not found",
+    "err_duplicate_comment": "You've already left the comment",
+    "err_name_change": "Failed to change name",
+    "err_add_product": "Adding new product failed",
+
+    "success_new_order": "Order accepted!",
+
+    "filter_panel_v1": "Popular",
+    "filter_panel_v2": "Cheap first",
+    "filter_panel_v3": "Expensive first",
+    "filter_panel_v4": "New ones",
+
+    "product_width": "Wigth, cm",
+    "product_breadth": "Breadth, cm",
+    "product_height": "Height, cm",
+    "product_category": "Category",
+    "product_manufacturer": "Manufacturer",
+    "product_add_to_cart": "Add to cart",
+    "product_in_cart": "In cart",
+    "product_forward_seller": "Seller profile",
+    "product_gallery": "Gallery",
+    "product_no_img": "No images yet",
+
+    "profile_new_name": "Enter new name",
+    "profile_name_confirm": "Confirm",
+    "profile_to_stats": "Watch statistics",
+    "profile_add_product": "Add new product",
+    "profile_change_name": "Change name",
+    "profile_goods_title": "Offered by seller:",
+
+    "profile_goods_list_title2": "Order status",
+    "profile_goods_list_title3": "Delivery address",
+    "profile_goods_list_title4": "Date"
   }
 }

@@ -25,8 +25,6 @@
     "login_popup_github": "Войти с помощью Github",
     "login_popup_signin": "Зарегистрироваться",
 
-    "main_popular": "Популярные",
-    "main_newest": "Новые",
     "product_list_reviews": "Отзывов",
 
     "reviews_rating": "Рейтинг",
@@ -49,20 +47,18 @@
 
     "create_product_form_title": "Форма добавления товара",
     "update_product_form_title": "Форма изменения товара",
-    "review_form_title_ph": "Введите название",
-    "review_form_text_ph": "Напишите свой текст",
-    "review_form_img_preview_ph": "Загрузите сюда превью",
-    "review_form_img_markup_ph": "Загрузите изображение для получения разметки на него",
-    "review_form_gallery": "Галерея",
-    "review_form_no_img": "Пока изображений нету",
+    "form_product_title": "Введите название",
+    "form_product_description": "Напишите свой текст",
+    "form_product_price": "Цена",
+    "form_product_material": "Материал",
+    "form_product_discount": "Текущая скидка, %",
+    "form_product_category": "Категория",
+    "form_product_manufacturer": "Производитель",
+    "form_product_outofstock": "Нет в наличии:",
 
-    "composition_card_reviews": "Другие отзывы на это произведение",
-    "composition_card_create_review": "Напишите свой отзыв",
-
-    "mark_review": "Оцените отзыв",
-    "mark_composition": "Оцените произведение",
-
-    "no_reviews": "Не найдено отзывов, соответствующих критериям",
+    "form_product_priority": "Приоритет",
+    "form_img_preview": "Загрузите сюда превью",
+    "form_img_markup": "Загрузите изображение для получения разметки на него",
 
     "seller_email": "Почта",
     "seller_code": "Код верификации",
@@ -86,6 +82,51 @@
     "Мебель для бизнеса": "Мебель для бизнеса",
     "Сейфы и архивные шкафы": "Сейфы и архивные шкафы",
 
-    "cart_unregistred": "Зарегистрируйтесь, чтобы начать покупки"
+    "cart_unregistred": "Зарегистрируйтесь, чтобы начать покупки",
+    "cart_cart": "Корзина",
+    "cart_total": "Всего:",
+    "cart_goods": "Товары:",
+    "cart_payment_btn": "Оплатить",
+
+    "i18_order_status_1": "Принят",
+    "i18_order_status_2": "Обрабатывается",
+    "i18_order_status_3": "В пути",
+    "i18_order_status_4": "Доставлен",
+    "i18_order_status_5": "Получен",
+
+    "err_try_later": "Произошла ошибка, попробуйте позже",
+    "err_goods_not_found": "Товары не найдены",
+    "err_duplicate_comment": "Вы уже оставляли отзыв",
+    "err_name_change": "Не удалось изменить имя",
+    "err_add_product": "Не удалось добавить товар",
+
+    "success_new_order": "Заказ успешно оформлен",
+
+    "filter_panel_v1": "Популярные",
+    "filter_panel_v2": "Сначала дешевые",
+    "filter_panel_v3": "Сначала дорогие",
+    "filter_panel_v4": "Новинки",
+
+    "product_width": "Длина, см",
+    "product_breadth": "Ширина, см",
+    "product_height": "Высота, см",
+    "product_category": "Тип",
+    "product_manufacturer": "Производитель",
+    "product_add_to_cart": "Добавить в корзину",
+    "product_in_cart": "В корзине",
+    "product_forward_seller": "Перейти к продавцу",
+    "product_gallery": "Галерея",
+    "product_no_img": "Пока изображений нету",
+
+    "profile_new_name": "Введите новое имя",
+    "profile_name_confirm": "Подтвердить",
+    "profile_to_stats": "Просмотреть статистику",
+    "profile_add_product": "Добавить товар",
+    "profile_change_name": "Сменить имя",
+    "profile_goods_title": "Товары, предлагаемые пользователем:",
+
+    "profile_goods_list_title2": "Статус заказа",
+    "profile_goods_list_title3": "Адрес доставки",
+    "profile_goods_list_title4": "Дата"
   }
 }

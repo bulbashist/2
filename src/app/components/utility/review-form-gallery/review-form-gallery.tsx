@@ -13,10 +13,10 @@ export const GalleryComponent = ({ images }: Props) => {
   return (
     <Stack direction="column" gap={CSSGap.Small}>
       <Typography variant="h5" textAlign="center">
-        {t("review_form_gallery")}
+        {t("product_gallery")}
       </Typography>
       {images.length === 0 ? (
-        <Typography textAlign="center">{t("review_form_no_img")}</Typography>
+        <Typography textAlign="center">{t("product_no_img")}</Typography>
       ) : null}
       {images.map((url, i) => (
         <Stack

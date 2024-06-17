@@ -1,58 +1,53 @@
 import axios from "axios";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { usersURL } from "app/constants/urls";
 import { User } from "app/types";
-import { ChangeNameDto } from "./types";
 
 type State = {
   data: User | null;
   loading: boolean;
+  error: boolean;
+  nameError: boolean;
 };
 
 const initialState: State = {
   data: null,
   loading: false,
+  error: false,
+  nameError: false,
 };
 
 const getUserData = createAsyncThunk("load-user-data", async (id: number) => {
-  const response = await axios.get(usersURL + id);
-  return response.data;
+  return axios.get(usersURL + id).then((res) => res.data);
 });
 
-const changeUserName = createAsyncThunk(
-  "user-change-name-1",
-  async (data: ChangeNameDto) => {
-    await axios.patch(
-      usersURL + data.id,
-      { name: data.name },
-      { withCredentials: true }
-    );
-
-    return data.name;
-  }
-);
-
-const slice = createSlice<State, any>({
+const slice = createSlice({
   name: "user-data",
   initialState,
-  reducers: {},
+  reducers: {
+    changeUserName: (state, action: PayloadAction<string>) => {
+      if (state.data) {
+        state.data.name = action.payload;
+      }
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(getUserData.pending, (state) => {
         state.loading = true;
+        state.error = false;
       })
       .addCase(getUserData.rejected, (state) => {
         state.loading = false;
+        state.error = true;
       })
       .addCase(getUserData.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
-      })
-
-      .addCase(changeUserName.fulfilled, (state, action) => {
-        state.data!.name = action.payload;
+        state.error = false;
       }),
 });
 
-export { getUserData, changeUserName };
+export { getUserData };
+export const { changeUserName } = slice.actions;
 export default slice.reducer;

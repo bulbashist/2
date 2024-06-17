@@ -18,6 +18,7 @@ import defImg from "app/assets/default.webp";
 import ReviewsOutlined from "@mui/icons-material/ReviewsOutlined";
 
 import styles from "app/styles/animations.module.css";
+import { useTranslation } from "react-i18next";
 
 export const ProductListComponent = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -25,6 +26,7 @@ export const ProductListComponent = () => {
   const [error, setError] = useState(false);
   const searchText = useSearchParams()[0].get("search");
   const [page, setPage] = useState(1);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setError(false);
@@ -52,9 +54,7 @@ export const ProductListComponent = () => {
     return (
       <Box position="relative" flexGrow={1} height="100%">
         <Stack direction="column" justifyContent="center" height="100%">
-          <Typography variant="h4">
-            Произошла ошибка, попробуйте позже
-          </Typography>
+          <Typography variant="h4">{t("err_try_later")}</Typography>
         </Stack>
       </Box>
     );
@@ -78,7 +78,7 @@ export const ProductListComponent = () => {
       >
         {products.length === 0 ? (
           <Box flexGrow={1} height="100%" alignSelf="center">
-            <Typography variant="h4">Товары не найдены</Typography>
+            <Typography variant="h4">{t("err_goods_not_found")}</Typography>
           </Box>
         ) : null}
         {products.map((product) => (
@@ -124,7 +124,9 @@ export const ProductListComponent = () => {
                   <Grid item xs={12}>
                     <Stack direction="row" gap={CSSGap.Tiny}>
                       <ReviewsOutlined />
-                      <Typography>{product.totalComms} отзывов</Typography>
+                      <Typography>
+                        {product.totalComms} {t("product_list_reviews")}
+                      </Typography>
                     </Stack>
                   </Grid>
                 </Grid>

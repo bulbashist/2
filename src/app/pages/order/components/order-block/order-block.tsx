@@ -41,8 +41,14 @@ export const OrderBlockComponent = ({ order }: Props) => {
           ))}
         </Stack>
       </Box>
+      <Typography variant="h5" textAlign="right">
+        {order.office.location}
+      </Typography>
+      <Typography variant="h5" textAlign="right">
+        {t(order.status.name)}
+      </Typography>
       <Typography variant="h4" textAlign="right">
-        Итого: {getTotal()} BYN
+        {getTotal()} BYN
       </Typography>
     </Box>
   );

@@ -14,10 +14,9 @@ import { useTranslation } from "react-i18next";
 import GalleryComponent from "app/components/utility/review-form-gallery";
 import { CSSGap, CSSPadding } from "app/styles/constants";
 import { Theme } from "app/themes/types";
-import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useAppSelector } from "app/hooks";
 
 import { ImageServer } from "app/services/image-server";
-import { setEditingState } from "../../store/slice";
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import { Category, Manufacturer, Product } from "app/types";
 import axios from "axios";
@@ -96,13 +95,13 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
               <Grid item xs={8} md={5}>
                 <FileUploader
                   handleChange={loadToGallery}
-                  label={t("review_form_img_markup_ph")}
+                  label={t("form_img_markup")}
                 />
               </Grid>
             </Grid>
             <Stack direction="row" gap={CSSGap.Small}>
               <Input
-                placeholder={t("width")}
+                placeholder={t("product_width")}
                 type="number"
                 required
                 defaultValue={product.width}
@@ -111,17 +110,44 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
               />
               <Input
                 defaultValue={product.breadth}
-                placeholder={t("breadth")}
+                type="number"
+                placeholder={t("product_breadth")}
                 required
                 {...register("breadth", { valueAsNumber: true })}
                 sx={{ width: "300px", alignSelf: "center" }}
               />
               <Input
                 defaultValue={product.height}
-                placeholder={t("height")}
+                type="number"
+                placeholder={t("product_height")}
                 required
                 {...register("height", { valueAsNumber: true })}
                 sx={{ width: "300px", alignSelf: "center" }}
+              />
+            </Stack>
+            <Stack direction="row" gap={CSSGap.Small}>
+              <Input
+                defaultValue={product.material}
+                placeholder={t("product_material")}
+                {...register("material")}
+                fullWidth
+              />
+              <Input
+                defaultValue={product.price}
+                placeholder={t("product_price")}
+                required
+                fullWidth
+                {...register("price", { valueAsNumber: true })}
+              />
+              <Input
+                defaultValue={product.discount}
+                placeholder={t("product_discount")}
+                fullWidth
+                {...register("discount", {
+                  valueAsNumber: true,
+                  min: 0,
+                  max: 90,
+                })}
               />
             </Stack>
             <textarea
@@ -134,31 +160,6 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
               placeholder={t("review_form_text_ph")}
               {...register("description")}
             />
-            <Stack direction="row" gap={CSSGap.Small}>
-              <Input
-                defaultValue={product.material}
-                placeholder={t("material")}
-                {...register("material")}
-                fullWidth
-              />
-              <Input
-                defaultValue={product.price}
-                placeholder={t("price")}
-                required
-                fullWidth
-                {...register("price", { valueAsNumber: true })}
-              />
-              <Input
-                defaultValue={product.discount}
-                placeholder={t("discount")}
-                fullWidth
-                {...register("discount", {
-                  valueAsNumber: true,
-                  min: 0,
-                  max: 90,
-                })}
-              />
-            </Stack>
             <Button type="submit" sx={{ alignSelf: "end" }}>
               {t("word_submit")}
             </Button>
@@ -177,7 +178,7 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
                     getOptionLabel={(value) => value.name}
                     renderInput={(params) => (
                       //@ts-ignore
-                      <TextField {...params} label="Категория" />
+                      <TextField {...params} label={t("product_category")} />
                     )}
                   />
                 )}
@@ -195,7 +196,10 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
                     getOptionLabel={(value) => value.name}
                     renderInput={(params) => (
                       //@ts-ignore
-                      <TextField {...params} label="Производитель" />
+                      <TextField
+                        {...params}
+                        label={t("product_manufacturer")}
+                      />
                     )}
                   />
                 )}

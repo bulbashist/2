@@ -5,19 +5,19 @@ type SortVariant = {
 
 export const sortVariants: SortVariant[] = [
   {
-    label: "Популярные",
+    label: "filter_panel_v1",
     value: 0,
   },
   {
-    label: "Сначала дешевые",
+    label: "filter_panel_v2",
     value: 1,
   },
   {
-    label: "Сначала дорогие",
+    label: "filter_panel_v3",
     value: 2,
   },
   {
-    label: "Новинки",
+    label: "filter_panel_v4",
     value: 3,
   },
 ];

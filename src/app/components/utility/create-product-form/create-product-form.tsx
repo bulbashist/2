@@ -26,6 +26,7 @@ import {
   manufacturersURI,
   productsURI,
 } from "app/constants/urls";
+import DialogFailure from "../dialog-failure";
 
 type FormData = Partial<Product>;
 
@@ -37,6 +38,7 @@ type Props = {
 export const CreateProductForm = ({ open, closeModal }: Props) => {
   const theme = useAppSelector((state) => state.core.theme);
   const [images, setImages] = useState<string[]>([]);
+  const [err, setErr] = useState(false);
 
   const { control, handleSubmit, register } = useForm<FormData>();
   const { t } = useTranslation();
@@ -58,8 +60,10 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
       ...data,
       photos: images.map((img) => ({ url: img })),
     };
-    axios.post(productsURI, body, { withCredentials: true }).catch(console.log);
-    closeModal();
+    axios.post(productsURI, body, { withCredentials: true }).then(
+      () => closeModal(),
+      () => setErr(true)
+    );
   };
 
   const [categories, setCategories] = useState<Category[]>([]);
@@ -79,6 +83,11 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
 
   return (
     <Dialog open={open} maxWidth="xl">
+      <DialogFailure
+        isOpen={err}
+        close={() => setErr(false)}
+        msg="err_add_product"
+      />
       <Box position="absolute" top={8} right={8}>
         <Close onClick={closeModal} />
       </Box>
@@ -99,7 +108,7 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
         >
           <Stack direction="column" gap={CSSGap.Small}>
             <Input
-              placeholder={t("review_form_title_ph")}
+              placeholder={t("form_product_title")}
               {...register("name")}
               sx={{ width: "300px", alignSelf: "center" }}
             />
@@ -107,35 +116,51 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
               <Grid item xs={8} md={5}>
                 <FileUploader
                   handleChange={handleChange}
-                  label={t("review_form_img_preview_ph")}
+                  label={t("form_img_preview")}
                 />
               </Grid>
               <Grid item xs={8} md={5}>
                 <FileUploader
                   handleChange={loadToGallery}
-                  label={t("review_form_img_markup_ph")}
+                  label={t("form_img_markup")}
                 />
               </Grid>
             </Grid>
             <Stack direction="row" gap={CSSGap.Small}>
               <Input
-                placeholder={t("width")}
+                placeholder={t("product_width")}
                 type="number"
                 required
                 {...register("width", { valueAsNumber: true })}
                 fullWidth
               />
               <Input
-                placeholder={t("breadth")}
+                placeholder={t("product_breadth")}
+                type="number"
                 required
                 {...register("breadth", { valueAsNumber: true })}
                 fullWidth
               />
               <Input
-                placeholder={t("height")}
+                placeholder={t("product_height")}
+                type="number"
                 required
                 {...register("height", { valueAsNumber: true })}
                 fullWidth
+              />
+            </Stack>
+            <Stack direction="row" gap={CSSGap.Small}>
+              <Input
+                placeholder={t("form_product_price")}
+                type="number"
+                required
+                {...register("price", { valueAsNumber: true })}
+                fullWidth
+              />
+              <Input
+                placeholder={t("form_product_material")}
+                fullWidth
+                {...register("material")}
               />
             </Stack>
             <textarea
@@ -144,31 +169,10 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
                 backgroundColor: theme === Theme.Light ? "white" : "black",
                 color: theme === Theme.Light ? "black" : "white",
               }}
-              placeholder={t("review_form_text_ph")}
+              placeholder={t("form_product_description")}
               {...register("description")}
             />
-            <Stack direction="row" gap={CSSGap.Small}>
-              <Input
-                placeholder={t("price")}
-                required
-                {...register("price", { valueAsNumber: true })}
-                fullWidth
-              />
-              <Input
-                placeholder={t("material")}
-                fullWidth
-                {...register("material")}
-              />
-              <Input
-                placeholder={t("discount")}
-                fullWidth
-                {...register("discount", { min: 0, max: 90 })}
-              />
-            </Stack>
-            <Button type="submit" sx={{ alignSelf: "end" }}>
-              {t("word_submit")}
-            </Button>
-            <Stack direction="row">
+            <Stack direction="row" gap={CSSGap.Average}>
               <Controller
                 name="category"
                 control={control}
@@ -182,7 +186,10 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
                     getOptionLabel={(value) => value.name}
                     renderInput={(params) => (
                       //@ts-ignore
-                      <TextField {...params} label="Категория" />
+                      <TextField
+                        {...params}
+                        label={t("form_product_category")}
+                      />
                     )}
                   />
                 )}
@@ -198,12 +205,18 @@ export const CreateProductForm = ({ open, closeModal }: Props) => {
                     getOptionLabel={(value) => value.name}
                     renderInput={(params) => (
                       //@ts-ignore
-                      <TextField {...params} label="Производитель" />
+                      <TextField
+                        {...params}
+                        label={t("form_product_manufacturer")}
+                      />
                     )}
                   />
                 )}
               />
             </Stack>
+            <Button type="submit" sx={{ alignSelf: "end" }}>
+              {t("word_submit")}
+            </Button>
           </Stack>
         </form>
         <GalleryComponent images={images} />

@@ -27,6 +27,7 @@ import { WSOrderEvents } from "../product/components/comment-block/services/type
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { Close } from "@mui/icons-material";
+import DialogSuccess from "app/components/utility/dialog-success";
 
 const CartPage = () => {
   const [params] = useSearchParams();
@@ -103,30 +104,22 @@ const CartPage = () => {
 
   return (
     <PageWrapperComponent>
-      {success ? (
-        <Dialog open>
-          <Box position="relative" padding={CSSPadding.Decent}>
-            <Box position="absolute" top={8} right={8}>
-              <Close onClick={() => navigate(`/users/${userId}`)} />
-            </Box>
-
-            <Typography color="green">Заказ успешно оформлен</Typography>
-          </Box>
-        </Dialog>
-      ) : (
-        <></>
-      )}
+      <DialogSuccess
+        isOpen={success}
+        close={() => navigate(`/users/${userId}`)}
+        msg="success_new_order"
+      />
       <Box padding={CSSPadding.Decent} height="100%">
         <Typography
           textAlign="left"
           variant="h5"
           marginBottom={CSSMargin.Average}
         >
-          Корзина
+          {t("cart_cart")}
         </Typography>
 
         <Typography textAlign="left" variant="h6" marginBottom={CSSMargin.Tiny}>
-          Товары:
+          {t("cart_goods")}
         </Typography>
         <Grid container>
           <Grid item xs={7}>
@@ -155,12 +148,14 @@ const CartPage = () => {
                 )}
               />
               <Stack direction="row" alignItems="center" gap={CSSGap.Small}>
-                <Typography>Всего: {getTotal()}</Typography>
+                <Typography>
+                  {t("cart_total")} {getTotal()}
+                </Typography>
                 <PaymentButton
                   disabled={!selectedOfficeId || products.length === 0}
                   onClick={() => paymentHandler()}
                 >
-                  Оплатить
+                  {t("cart_payment_btn")}
                 </PaymentButton>
               </Stack>
             </Stack>

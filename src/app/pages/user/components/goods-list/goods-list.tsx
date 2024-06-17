@@ -11,7 +11,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import CreateProductForm from "app/components/utility/add-review-form";
+import CreateProductForm from "app/components/utility/create-product-form";
 import { getSellerProductsURI } from "app/constants/urls";
 import {
   CSSGap,
@@ -26,6 +26,7 @@ import { Link, useParams } from "react-router-dom";
 import { sortVariants } from "../../types";
 import { useAppSelector } from "app/hooks";
 import defImg from "app/assets/default.webp";
+import { useTranslation } from "react-i18next";
 
 export const GoodsListComponent = () => {
   const { id } = useParams();
@@ -36,6 +37,7 @@ export const GoodsListComponent = () => {
   const [page, setPage] = useState(1);
 
   const [sortVal, setSortVal] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const URI = getSellerProductsURI(+id!, page, sortVal);
@@ -55,7 +57,7 @@ export const GoodsListComponent = () => {
             fontWeight={FontWeight.Bold}
             marginBottom={CSSMargin.Small}
           >
-            Товары, предлагаемые пользователем:
+            {t("profile_goods_title")}
           </Typography>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <Select
@@ -64,7 +66,7 @@ export const GoodsListComponent = () => {
             >
               {sortVariants.map((sv) => (
                 <MenuItem key={sv.value} value={sv.value}>
-                  {sv.label}
+                  {t(sv.label)}
                 </MenuItem>
               ))}
             </Select>
@@ -73,7 +75,7 @@ export const GoodsListComponent = () => {
         {+id! === userId ? (
           <Box position="absolute" top={0} right={0}>
             <Button onClick={() => setProductDialog(true)}>
-              Добавить товар
+              {t("profile_add_product")}
             </Button>
           </Box>
         ) : (
