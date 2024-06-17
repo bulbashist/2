@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../../hooks";
 // import { initiatePayment, printCheck } from "../../services/payment";
-import { CartGrid, PaymentButton } from "./styles";
+import { PaymentButton } from "./styles";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -10,8 +10,6 @@ import PageWrapperComponent from "app/components/page-wrapper";
 import {
   Autocomplete,
   Box,
-  Button,
-  Dialog,
   Grid,
   Stack,
   TextField,
@@ -26,7 +24,6 @@ import { orderWSC } from "../orders/services/order-connection";
 import { WSOrderEvents } from "../product/components/comment-block/services/types";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import { Close } from "@mui/icons-material";
 import DialogSuccess from "app/components/utility/dialog-success";
 
 const CartPage = () => {
