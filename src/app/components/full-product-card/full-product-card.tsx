@@ -28,6 +28,7 @@ import {
 } from "@mui/icons-material";
 import { removeProduct, setEditingState } from "app/pages/product/store/slice";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 type Props = {
   product: Product;
@@ -41,6 +42,8 @@ export const FullProductCardComponent = ({ product }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const [currPhoto, setCurrPhoto] = useState(0);
 
   const getTotal = (product: Product) => {
     return (product.price * (1 - product.discount / 100)).toFixed(2);
@@ -87,10 +90,11 @@ export const FullProductCardComponent = ({ product }: Props) => {
           container
           padding={CSSPadding.Small}
           justifyContent="space-around"
+          alignItems="start"
         >
           <Grid item xs={5}>
             <img
-              src={product.photos[0]?.url ?? defImg}
+              src={product.photos[currPhoto]?.url ?? defImg}
               width="100%"
               height="100%"
               style={{ objectFit: "contain" }}
@@ -188,21 +192,24 @@ export const FullProductCardComponent = ({ product }: Props) => {
           <Grid item xs={12} marginTop={CSSMargin.Decent}>
             <Typography textAlign="left">{t("product_gallery")}:</Typography>
             {product.photos.length !== 0 ? (
-              <List>
-                {product.photos.map((photo) => (
-                  <ListItem key={photo.id}>
-                    <Box width={100}>
-                      <img
-                        width="100%"
-                        height="100%"
-                        style={{ objectFit: "contain" }}
-                        src={photo.url}
-                        alt=""
-                      />
-                    </Box>
-                  </ListItem>
+              <Stack direction="row" gap={CSSGap.Average}>
+                {product.photos.map((photo, i) => (
+                  <Box
+                    key={photo.id}
+                    width={100}
+                    onClick={() => setCurrPhoto(i)}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <img
+                      width="100%"
+                      height="100%"
+                      style={{ objectFit: "contain" }}
+                      src={photo.url}
+                      alt=""
+                    />
+                  </Box>
                 ))}
-              </List>
+              </Stack>
             ) : (
               <Typography textAlign="left" marginTop={CSSMargin.Small}>
                 {t("product_no_img")}
