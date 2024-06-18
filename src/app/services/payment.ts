@@ -14,7 +14,7 @@ const initiatePayment = async (sum: string) => {
     }
   );
 
-  window.open(res.data.url!, "_blank");
+  window.open(res.data.url!);
 
   const stripe = await loadStripe(
     "pk_test_51PICnDRrodiK0hZ4kQvbYlizUgUkMNnGEhuLnlpvIHRzfyfz3ityjLIWk7LV1p1ljibx6ngyaGkew4LWKfEsc29C00MyZlFgwk"
