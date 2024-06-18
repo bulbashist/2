@@ -40,6 +40,10 @@ export const CatalogComponent = () => {
       .finally(() => setTimeout(() => setLoading(false), 500));
   }, [category, page, filter]);
 
+  const getTotal = (product: Product) => {
+    return (product.price * (1 - product.discount / 100)).toFixed(2);
+  };
+
   if (loading) {
     return (
       <Box position="relative" flexGrow={1} height="100%">
@@ -98,7 +102,7 @@ export const CatalogComponent = () => {
                       fontWeight={FontWeight.Bold}
                       fontSize="18px"
                     >
-                      {product.price} BYN
+                      {getTotal(product)} BYN
                     </Typography>
                   </Grid>
                   <Grid item xs={12} height={45} overflow="hidden">
