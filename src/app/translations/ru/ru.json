@@ -48,7 +48,7 @@
     "create_product_form_title": "Форма добавления товара",
     "update_product_form_title": "Форма изменения товара",
     "form_product_title": "Введите название",
-    "form_product_description": "Напишите свой текст",
+    "form_product_description": "Опишите товар",
     "form_product_price": "Цена",
     "form_product_material": "Материал",
     "form_product_discount": "Текущая скидка, %",

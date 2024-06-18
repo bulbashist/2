@@ -87,7 +87,7 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
           <Stack direction="column" gap={CSSGap.Small}>
             <Input
               defaultValue={product.name}
-              placeholder={t("review_form_title_ph")}
+              placeholder={t("form_product_title")}
               {...register("name")}
               sx={{ width: "300px", alignSelf: "center" }}
             />
@@ -128,20 +128,22 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
             <Stack direction="row" gap={CSSGap.Small}>
               <Input
                 defaultValue={product.material}
-                placeholder={t("product_material")}
+                placeholder={t("form_product_material")}
                 {...register("material")}
                 fullWidth
               />
               <Input
                 defaultValue={product.price}
-                placeholder={t("product_price")}
+                type="number"
+                placeholder={t("form_product_price")}
                 required
                 fullWidth
                 {...register("price", { valueAsNumber: true })}
               />
               <Input
                 defaultValue={product.discount}
-                placeholder={t("product_discount")}
+                type="number"
+                placeholder={t("form_product_discount")}
                 fullWidth
                 {...register("discount", {
                   valueAsNumber: true,
@@ -157,7 +159,7 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
                 color: theme === Theme.Light ? "black" : "white",
               }}
               defaultValue={product.description}
-              placeholder={t("review_form_text_ph")}
+              placeholder={t("form_product_description")}
               {...register("description")}
             />
             <Button type="submit" sx={{ alignSelf: "end" }}>
@@ -178,7 +180,10 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
                     getOptionLabel={(value) => value.name}
                     renderInput={(params) => (
                       //@ts-ignore
-                      <TextField {...params} label={t("product_category")} />
+                      <TextField
+                        {...params}
+                        label={t("form_product_category")}
+                      />
                     )}
                   />
                 )}
@@ -188,6 +193,7 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Autocomplete
+                    defaultValue={product.manufacturer}
                     onChange={(e, selected) => {
                       onChange(selected);
                     }}
@@ -198,7 +204,7 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
                       //@ts-ignore
                       <TextField
                         {...params}
-                        label={t("product_manufacturer")}
+                        label={t("form_product_manufacturer")}
                       />
                     )}
                   />
@@ -208,7 +214,7 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
           </Stack>
           <Stack direction="row" gap={CSSGap.Average} alignItems="center">
             <Stack direction="row" alignItems="center">
-              <p>Нет в наличии:</p>
+              <p>{t("form_product_outofstock")}</p>
               <input
                 defaultChecked={product.outOfStock}
                 type="checkbox"
@@ -217,7 +223,8 @@ export const UpdateProductForm = ({ isOpen, close }: Props) => {
             </Stack>
             <Input
               type="number"
-              placeholder="Приоритет"
+              placeholder={t("form_product_priority")}
+              defaultValue={product.priority}
               {...register("priority", { min: 0, max: 100 })}
             />
           </Stack>
