@@ -134,12 +134,14 @@ export const FullProductCardComponent = ({ product }: Props) => {
                           <Typography color="GrayText">
                             {getTotal(product)} BYN
                           </Typography>
-                          <Typography
-                            color="GrayText"
-                            sx={{ textDecoration: "line-through" }}
-                          >
-                            {product.price} BYN{" "}
-                          </Typography>
+                          {product.discount ? (
+                            <Typography
+                              color="GrayText"
+                              sx={{ textDecoration: "line-through" }}
+                            >
+                              {product.price} BYN{" "}
+                            </Typography>
+                          ) : null}
                         </Stack>
                       </Box>
 

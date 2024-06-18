@@ -1,4 +1,4 @@
-import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, Stack, Typography } from "@mui/material";
 import { useAppDispatch } from "app/hooks";
 import {
   CSSGap,
@@ -135,7 +135,7 @@ export const FullProductCardComponent2 = ({ product }: Props2) => {
             fontWeight={FontWeight.Bold}
             paddingBottom={CSSPadding.Decent}
           >
-            {product.price * (1 - product.discount / 100)} BYN
+            {(product.price * (1 - product.discount / 100)).toFixed(2)} BYN
           </Typography>
           <Delete
             color="info"
